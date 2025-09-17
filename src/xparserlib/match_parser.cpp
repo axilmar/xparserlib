@@ -1,0 +1,40 @@
+#include "xparserlib/match_parser.hpp"
+#include "xparserlib/string_parser.hpp"
+
+
+namespace xparserlib {
+
+
+    match_parser::match_parser(const parser_ptr& parser, match_type type)
+        : m_parser(parser)
+        , m_type(type)
+    {
+    }
+
+
+    bool match_parser::parse(parse_context& pc) const {
+        const iterator_type start_position = pc.position();
+        if (m_parser->parse(pc)) {
+            pc.add_match(m_type, start_position, pc.position());
+            return true;
+        }
+        return false;
+    }
+
+
+    parser_ptr operator ->* (const parser_ptr& parser, match_type type) {
+        return std::make_shared<match_parser>(parser, type);
+    }
+
+
+    parser_ptr operator ->* (const string_type& string, match_type type) {
+        return std::make_shared<match_parser>(parser(string), type);
+    }
+
+
+    parser_ptr operator ->* (class rule& rule, match_type type) {
+        return std::make_shared<match_parser>(parser(rule), type);
+    }
+
+
+} //namespace xparserlib

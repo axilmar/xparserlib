@@ -1,0 +1,14 @@
+#ifndef XPARSERLIB_HPP
+#define XPARSERLIB_HPP
+
+
+#include "xparserlib/symbol_parser.hpp"
+#include "xparserlib/string_parser.hpp"
+#include "xparserlib/set_parser.hpp"
+#include "xparserlib/range_parser.hpp"
+#include "xparserlib/sequence_parser.hpp"
+#include "xparserlib/choice_parser.hpp"
+#include "xparserlib/match_parser.hpp"
+
+
+#endif //XPARSERLIB_HPP

@@ -30,6 +30,18 @@ namespace xparserlib {
     }
 
 
+    rule::rule(symbol_type symbol) 
+        : rule(parser(symbol))
+    {
+    }
+
+
+    rule::rule(const string_type& string) 
+        : rule(parser(string))
+    {
+    }
+
+
     parser_ptr rule::operator *() {
         return make_loop_zero_parser(parser(*this));
     }

@@ -21,6 +21,18 @@ namespace xparserlib {
         rule(const parser_ptr& parser = nullptr);
 
         /**
+         * Constructor from symbol.
+         * @param symbol symbol.
+         */
+        rule(symbol_type symbol);
+
+        /**
+         * Constructor from string.
+         * @param string string.
+         */
+        rule(const string_type& string);
+
+        /**
          * Creates a zero or more times loop out of this rule.
          * @return a zero or more times loop out of this rule.
          */

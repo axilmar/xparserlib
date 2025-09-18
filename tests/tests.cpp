@@ -310,6 +310,25 @@ static void test_rule() {
 }
 
 
+static void test_match() {
+    {
+        parser_ptr grammar = (symbol('a') ->* 1) >> symbol('b') ->* 2;
+        string_type input = "ab";
+        parse_context pc(input);
+        const bool result = grammar->parse(pc);
+        assert(result);
+        assert(pc.position() == input.end());
+        assert(pc.matches().size() == 2);
+        assert(pc.matches()[0].type == 1);
+        assert(pc.matches()[0].begin == input.begin());
+        assert(pc.matches()[0].end == input.begin() + 1);
+        assert(pc.matches()[1].type == 2);
+        assert(pc.matches()[1].begin == input.begin() + 1);
+        assert(pc.matches()[1].end == input.end());
+    }
+}
+
+
 void run_tests() {
     test_symbol_parser();
     test_string_parser();
@@ -321,4 +340,5 @@ void run_tests() {
     test_sequence_parser();
     test_choice_parser();
     test_rule();
+    test_match();
 }

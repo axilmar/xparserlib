@@ -11,9 +11,9 @@
 namespace xparserlib {
 
 
-    class rule_parser : public parser {
+    class rule_reference : public parser {
     public:
-        rule_parser(rule& r) : m_rule(r) {}
+        rule_reference(rule& r) : m_rule(r) {}
 
         bool parse(parse_context& pc) const override {
             return m_rule.parse(pc);
@@ -73,7 +73,7 @@ namespace xparserlib {
 
 
     parser_ptr make_rule_parser(class rule& rule) {
-        return std::make_shared<rule_parser>(rule);
+        return std::make_shared<rule_reference>(rule);
     }
 
 

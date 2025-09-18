@@ -1,4 +1,5 @@
 #include <cassert>
+#include <sstream>
 #include "xparserlib.hpp"
 
 
@@ -329,6 +330,107 @@ static void test_match() {
 }
 
 
+static void test_left_recursion() {
+    enum {
+        NUM,
+        ADD,
+        SUB,
+        MUL,
+        DIV
+    };
+
+    rule add;
+
+    rule num = +range('0', '9') ->* NUM;
+
+    rule val = num
+             | '(' >> add >> ')';
+
+    rule mul = (mul >> '*' >> val) ->* MUL
+             | (mul >> '/' >> val) ->* DIV
+             | mul >> '%' >> val
+             | val;
+
+    add = (add >> '+' >> mul) ->* ADD
+        | (add >> '-' >> mul) ->* SUB
+        | mul;
+
+    add.name = "add";
+    mul.name = "mul";
+    val.name = "val";
+    num.name = "num";
+
+    class calculator {
+    public:
+        static double eval(const matches_type& matches) {
+            std::vector<double> stack;
+
+            for (const match& m : matches) {
+                switch (m.type) {
+                    case NUM: {
+                        std::stringstream stream;
+                        for (auto it = m.begin; it != m.end; ++it) {
+                            stream << (char)*it;
+                        }
+                        double v;
+                        stream >> v;
+                        stack.push_back(v);
+                        break;
+                    }
+
+                    case ADD: {
+                        assert(stack.size() == 2);
+                        const double v = stack[0] + stack[1];
+                        stack.clear();
+                        stack.push_back(v);
+                        break;
+                    }
+
+                    case SUB: {
+                        assert(stack.size() == 2);
+                        const double v = stack[0] - stack[1];
+                        stack.clear();
+                        stack.push_back(v);
+                        break;
+                    }
+
+                    case MUL: {
+                        assert(stack.size() == 2);
+                        const double v = stack[0] * stack[1];
+                        stack.clear();
+                        stack.push_back(v);
+                        break;
+                    }
+
+                    case DIV: {
+                        assert(stack.size() == 2);
+                        const double v = stack[0] / stack[1];
+                        stack.clear();
+                        stack.push_back(v);
+                        break;
+                    }
+                }
+            }
+
+            assert(stack.size() == 1);
+            return stack.front();
+        }
+    };
+
+    #define CALC_TEST(F)\
+    {\
+        string_type input = #F;\
+        parse_context pc(input);\
+        const bool result = add.parse(pc);\
+        assert(result);\
+        assert(calculator::eval(pc.matches()) == F);\
+    }
+
+    CALC_TEST(1);
+    CALC_TEST(1+2);
+}
+
+
 void run_tests() {
     test_symbol_parser();
     test_string_parser();
@@ -341,4 +443,5 @@ void run_tests() {
     test_choice_parser();
     test_rule();
     test_match();
+    test_left_recursion();
 }

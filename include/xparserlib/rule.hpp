@@ -16,7 +16,7 @@ namespace xparserlib {
     public:
         /**
          * The constructor.
-         * @param parser parser to use for parsing.
+         * @param parser the parser to use for parsing.
          */
         rule(const parser_ptr& parser = nullptr);
 
@@ -31,6 +31,13 @@ namespace xparserlib {
          * @param string string.
          */
         rule(const string_type& string);
+
+        /**
+         * Assignment from parser.
+         * @param parser the parser to use for parsing.
+         * @return reference to this.
+         */
+        rule& operator = (const parser_ptr& parser);
 
         /**
          * Creates a zero or more times loop out of this rule.
@@ -68,6 +75,9 @@ namespace xparserlib {
          * @return whatever the internal parser returns.
          */
         bool parse(parse_context& pc) const;
+
+        rule* addr();
+        const char* name{nullptr};
 
     private:
         parser_ptr m_parser;

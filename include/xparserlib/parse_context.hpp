@@ -47,6 +47,9 @@ namespace xparserlib {
     using matches_type = std::vector<match>;
 
 
+    class lrm;
+
+
     /**
      * Parse context.
      * 
@@ -149,6 +152,11 @@ namespace xparserlib {
 
         //source end
         iterator_type m_end;
+
+        //left-recursion positions stack
+        std::vector<iterator_type> m_lrp;
+
+        friend class lrm;
     };
 
 

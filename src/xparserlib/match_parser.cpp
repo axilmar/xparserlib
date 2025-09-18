@@ -22,6 +22,16 @@ namespace xparserlib {
     }
 
 
+    const parser_ptr& match_parser::parser() const {
+        return m_parser;
+    }
+    
+
+    match_type match_parser::type() const {
+        return m_type;
+    }
+
+
     parser_ptr operator ->* (const parser_ptr& parser, match_type type) {
         return std::make_shared<match_parser>(parser, type);
     }

@@ -27,6 +27,9 @@ namespace xparserlib {
          */
         bool parse(parse_context& pc) const override;
 
+        const parser_ptr& parser() const;
+        match_type type() const;
+
     private:
         const parser_ptr m_parser;
         const match_type m_type;

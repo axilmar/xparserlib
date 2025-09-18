@@ -79,7 +79,7 @@ namespace xparserlib {
     };
 
 
-    static parser_ptr convert_left_recursion(const parser_ptr& p, rule* r) {
+    static parser_ptr convert_immediate_left_recursion(const parser_ptr& p, rule* r) {
         //the top level must be a choice
         choice_parser* choice = dynamic_cast<choice_parser*>(p.get());
         if (!choice) {
@@ -185,7 +185,7 @@ namespace xparserlib {
 
 
     rule::rule(const parser_ptr& parser)
-        : m_parser(convert_left_recursion(parser, this))
+        : m_parser(convert_immediate_left_recursion(parser, this))
     {
     }
 
@@ -203,7 +203,7 @@ namespace xparserlib {
 
 
     rule& rule::operator = (const parser_ptr& parser) {
-        m_parser = convert_left_recursion(parser, this);
+        m_parser = convert_immediate_left_recursion(parser, this);
         return *this;
     }
 

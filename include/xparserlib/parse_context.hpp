@@ -3,6 +3,7 @@
 
 
 #include "match.hpp"
+#include "error.hpp"
 
 
 namespace xparserlib {
@@ -77,6 +78,12 @@ namespace xparserlib {
         class state state() const;
 
         /**
+         * Returns the current errors.
+         * @return the current errors.
+         */
+        const errors_type& errors() const;
+
+        /**
          * Increments the current position by 1.
          * Overflow checks are only done at compile-time.
          */
@@ -93,8 +100,8 @@ namespace xparserlib {
          * Adds a match.
          * Overflow and range checks are only done at compile-time.
          * @param type type of match.
-         * @param begin start position of match into the source.
-         * @param end end position of match into the source.
+         * @param begin start position of the match into the source.
+         * @param end end position of the match into the source.
          * @param first_child_index index of first match child.
          */
         void add_match(match_type type, const iterator_type& begin, const iterator_type& end, size_t first_child_index);
@@ -104,6 +111,14 @@ namespace xparserlib {
          * @param state the state to set.
          */
         void set_state(const class state& state);
+
+        /**
+         * Adds an error.
+         * Overflow and range checks are only done at compile-time.
+         * @param type type of error.
+         * @param position position of the error into the source.
+         */
+        void add_error(error_type type, const iterator_type& position);
 
     private:
         //current position
@@ -123,6 +138,9 @@ namespace xparserlib {
 
         //left-recursion state stack
         std::vector<left_recursion_state> m_lrs;
+
+        //errors
+        errors_type m_errors;
 
         friend class lrm;
     };

@@ -20,7 +20,7 @@ namespace xparserlib {
         loop_zero_parser(const parser_ptr& parser);
 
         /**
-         * Parses a parser.
+         * Invokes a parser.
          * @param pc the parse context.
          * @return always true.
          */

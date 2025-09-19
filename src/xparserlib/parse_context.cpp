@@ -51,6 +51,11 @@ namespace xparserlib {
     }
 
 
+    const errors_type& parse_context::errors() const {
+        return m_errors;
+    }
+
+
     void parse_context::increment_position() {
         ++m_position;
         assert(m_position <= m_end);
@@ -78,6 +83,12 @@ namespace xparserlib {
     void parse_context::set_state(const class state& state) {
         m_position = state.position;
         m_matches.resize(state.match_count);
+    }
+
+
+    void parse_context::add_error(error_type type, const iterator_type& position) {
+        assert(position < m_end);
+        m_errors.push_back({ type, position });
     }
 
 

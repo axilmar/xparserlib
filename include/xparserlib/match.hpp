@@ -27,7 +27,7 @@ namespace xparserlib {
         /**
          * The constructor.
          * @param type type of match.
-         * @param begin the startposition.
+         * @param begin the start position.
          * @param end the end position.
          * @param children children matches.
          */

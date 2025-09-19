@@ -20,7 +20,7 @@ namespace xparserlib {
         logical_not_parser(const parser_ptr& parser);
 
         /**
-         * Parses a parser; keeps the parse context state intact.
+         * Invokes a parser; keeps the parse context state intact.
          * @param pc the parse context.
          * @return the opposite of whatever the parser returns.
          */

@@ -20,7 +20,7 @@ namespace xparserlib {
         optional_parser(const parser_ptr& parser);
 
         /**
-         * Parses a parser optionally.
+         * Invokes a parser optionally.
          * @param pc the parse context.
          * @return always true.
          */

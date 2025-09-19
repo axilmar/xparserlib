@@ -450,6 +450,23 @@ static void test_left_recursion() {
 }
 
 
+static void test_error() {
+    {
+        parser_ptr grammar = *(parser("a;") | "b;" | "c;" | (error(1) >> skip(';')));
+        string_type input = "a;b;d;c;f;a;";
+        parse_context pc(input);
+        const bool result = grammar->parse(pc);
+        assert(result);
+        assert(pc.position() == input.end());
+        assert(pc.errors().size() == 2);
+        assert(pc.errors()[0].type() == 1);
+        assert(pc.errors()[0].position() == input.begin() + 4);
+        assert(pc.errors()[1].type() == 1);
+        assert(pc.errors()[1].position() == input.begin() + 8);
+    }
+}
+
+
 void run_tests() {
     test_symbol_parser();
     test_string_parser();
@@ -463,4 +480,5 @@ void run_tests() {
     test_rule();
     test_match();
     test_left_recursion();
+    test_error();
 }

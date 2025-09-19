@@ -21,7 +21,8 @@ namespace xparserlib {
         match_parser(const parser_ptr& parser, match_type type);
 
         /**
-         * Parses a parser.
+         * Invokes a parser.
+         * If the invoked parser succeeds, a match is added to the parse context.
          * @param pc the parse context.
          * @return always true.
          */

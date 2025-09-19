@@ -13,6 +13,7 @@ What this library does and `parserlib` also does:
 - use of c++ operators `(>>, |, *, +, -, &, !, ->*)` for grammar expressions.
 - support for strings, sets and ranges.
 - support for immediate left recursion.
+- multiple error handling.
 
 What this library doesn't do and `parserlib` does:
 

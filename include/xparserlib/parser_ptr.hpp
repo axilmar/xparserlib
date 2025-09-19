@@ -19,6 +19,18 @@ namespace xparserlib {
         using std::shared_ptr<class parser>::shared_ptr;
 
         /**
+         * Symbol parser constructor.
+         * @param symbol symbol.
+         */
+        parser_ptr(symbol_type symbol);
+
+        /**
+         * String parser constructor.
+         * @param symbol symbol.
+         */
+        parser_ptr(const string_type& string);
+
+        /**
          * Creates a zero or more times loop out of this parser.
          * @return a zero or more times loop out of this parser.
          */

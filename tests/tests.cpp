@@ -365,70 +365,49 @@ static void test_left_recursion() {
 
     class calculator {
     public:
-        static double eval(const matches_type& matches) {
-            std::vector<double> stack;
-
-            for (const match& m : matches) {
-                switch (m.type()) {
-                    case NUM: {
-                        std::stringstream stream;
-                        for (auto it = m.begin(); it != m.end(); ++it) {
-                            stream << (char)*it;
-                        }
-                        double v;
-                        stream >> v;
-                        stack.push_back(v);
-                        break;
+        static double eval(const match& m) {
+            switch (m.type()) {
+                case NUM: {
+                    std::stringstream stream;
+                    for (auto it = m.begin(); it != m.end(); ++it) {
+                        stream << (char)*it;
                     }
+                    double v;
+                    stream >> v;
+                    return v;
+                }
 
-                    case ADD: {
-                        assert(stack.size() >= 2);
-                        const double a1 = *(stack.end() - 2);
-                        const double a2 = *(stack.end() - 1);
-                        const double v = a1 + a2;
-                        stack.pop_back();
-                        stack.pop_back();
-                        stack.push_back(v);
-                        break;
-                    }
+                case ADD: {
+                    assert(m.children().size() == 2);
+                    const double v = eval(m.children()[0]) + eval(m.children()[1]);
+                    return v;
+                }
 
-                    case SUB: {
-                        assert(stack.size() >= 2);
-                        const double a1 = *(stack.end() - 2);
-                        const double a2 = *(stack.end() - 1);
-                        const double v = a1 - a2;
-                        stack.pop_back();
-                        stack.pop_back();
-                        stack.push_back(v);
-                        break;
-                    }
+                case SUB: {
+                    assert(m.children().size() == 2);
+                    const double v = eval(m.children()[0]) - eval(m.children()[1]);
+                    return v;
+                }
 
-                    case MUL: {
-                        assert(stack.size() >= 2);
-                        const double a1 = *(stack.end() - 2);
-                        const double a2 = *(stack.end() - 1);
-                        const double v = a1 * a2;
-                        stack.pop_back();
-                        stack.pop_back();
-                        stack.push_back(v);
-                        break;
-                    }
+                case MUL: {
+                    assert(m.children().size() == 2);
+                    const double v = eval(m.children()[0]) * eval(m.children()[1]);
+                    return v;
+                }
 
-                    case DIV: {
-                        assert(stack.size() >= 2);
-                        const double a1 = *(stack.end() - 2);
-                        const double a2 = *(stack.end() - 1);
-                        const double v = a1 / a2;
-                        stack.pop_back();
-                        stack.pop_back();
-                        stack.push_back(v);
-                        break;
-                    }
+                case DIV: {
+                    assert(m.children().size() == 2);
+                    const double v = eval(m.children()[0]) / eval(m.children()[1]);
+                    return v;
                 }
             }
 
-            assert(stack.size() == 1);
-            return stack.front();
+            throw std::runtime_error("invalid match type");
+        }
+
+        static double eval(const matches_type& matches) {
+            assert(matches.size() == 1);
+            return eval(matches[0]);
         }
     };
 

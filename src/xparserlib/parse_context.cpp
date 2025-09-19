@@ -63,11 +63,15 @@ namespace xparserlib {
     }
 
 
-    void parse_context::add_match(match_type type, const iterator_type& begin, const iterator_type& end) {
-        m_matches.push_back(match{type, begin, end});
+    void parse_context::add_match(match_type type, const iterator_type& begin, const iterator_type& end, size_t first_child_index) {
         assert(begin < m_end);
         assert(end <= m_end);
         assert(begin < end);
+        assert(first_child_index <= m_matches.size());
+        matches_type match_children;
+        match_children.insert(match_children.end(), std::make_move_iterator(m_matches.begin() + first_child_index), std::make_move_iterator(m_matches.end()));
+        m_matches.resize(first_child_index);
+        m_matches.push_back({ match(type, begin, end, std::move(match_children)) });
     }
 
 

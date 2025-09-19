@@ -95,8 +95,9 @@ namespace xparserlib {
          * @param type type of match.
          * @param begin start position of match into the source.
          * @param end end position of match into the source.
+         * @param first_child_index index of first match child.
          */
-        void add_match(match_type type, const iterator_type& begin, const iterator_type& end);
+        void add_match(match_type type, const iterator_type& begin, const iterator_type& end, size_t first_child_index);
 
         /**
          * Sets the current state from a previously recorded state.
@@ -114,8 +115,14 @@ namespace xparserlib {
         //source end
         iterator_type m_end;
 
-        //left-recursion positions stack
-        std::vector<iterator_type> m_lrp;
+        //left recursion state
+        struct left_recursion_state {
+            iterator_type position;
+            size_t match_count;
+        };
+
+        //left-recursion state stack
+        std::vector<left_recursion_state> m_lrs;
 
         friend class lrm;
     };

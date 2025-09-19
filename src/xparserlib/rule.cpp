@@ -29,16 +29,16 @@ namespace xparserlib {
 
     class lrm {
     public:
-        static iterator_type get_left_recursion_position(parse_context& pc) {
-            return pc.m_lrp.front();
+        static auto get_left_recursion_state(parse_context& pc) {
+            return pc.m_lrs.back();
         }
 
-        static void push_left_recursion_position(parse_context& pc) {
-            pc.m_lrp.push_back(pc.m_position);
+        static void push_left_recursion_state(parse_context& pc) {
+            pc.m_lrs.push_back({ pc.m_position, pc.m_matches.size() });
         }
 
-        static void pop_left_recursion_position(parse_context& pc) {
-            pc.m_lrp.pop_back();
+        static void pop_left_recursion_state(parse_context& pc) {
+            pc.m_lrs.pop_back();
         }
     };
 
@@ -51,9 +51,9 @@ namespace xparserlib {
         }
 
         bool parse(parse_context& pc) const override {
-            lrm::push_left_recursion_position(pc);
+            lrm::push_left_recursion_state(pc);
             const bool result = m_parser->parse(pc);
-            lrm::pop_left_recursion_position(pc);
+            lrm::pop_left_recursion_state(pc);
             return result;
         }
 
@@ -70,7 +70,8 @@ namespace xparserlib {
         }
 
         bool parse(parse_context& pc) const override {
-            pc.add_match(m_type, lrm::get_left_recursion_position(pc), pc.position());
+            const auto lr_start_state = lrm::get_left_recursion_state(pc);
+            pc.add_match(m_type, lr_start_state.position, pc.position(), lr_start_state.match_count);
             return true;
         }
 

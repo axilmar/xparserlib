@@ -27,10 +27,11 @@ namespace xparserlib {
         /**
          * The constructor.
          * @param type type of match.
-         * @param begin begin position.
-         * @param end end position.
+         * @param begin the startposition.
+         * @param end the end position.
+         * @param children children matches.
          */
-        match(match_type type, const iterator_type& begin, const iterator_type& end);
+        match(match_type type, const iterator_type& begin, const iterator_type& end, matches_type&& children);
 
         /**
          * Returns the type of match.
@@ -39,21 +40,28 @@ namespace xparserlib {
         match_type type() const;
 
         /**
-         * Returns an iterator at where the match begins, in the source.
-         * @return iterator to the match start.
+         * Returns the start position in the source string.
+         * @return the start position in the source string.
          */
         const iterator_type& begin() const;
 
         /**
-         * Returns an iterator at where the match ends, in the source.
-         * @return iterator to the match end.
+         * Returns the end position in the source string.
+         * @return the end position in the source string.
          */
         const iterator_type& end() const;
+
+        /**
+         * Returns the children matches.
+         * @return the children matches.
+         */
+        const matches_type& children() const;
 
     private:
         match_type m_type;
         iterator_type m_begin;
         iterator_type m_end;
+        matches_type m_children;
     };
 
 

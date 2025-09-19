@@ -8,14 +8,14 @@ While the [`parserlib`](https://github.com/axilmar/parserlib) library has achiev
 
 Therefore, this library is also a recursive-descent library, based on the same principles as `parserlib`, but it avoids templates when it can, replacing it with polymorhic classes, in order to be compile-time-efficient.
 
-What this library does and `parserlib` also does:
+Capabilities this and `parserlib` share:
 
 - use of c++ operators `(>>, |, *, +, -, &, !, ->*)` for grammar expressions.
 - support for strings, sets and ranges.
 - support for immediate left recursion.
 - multiple error handling.
 
-What this library doesn't do and `parserlib` does:
+Capabilities of `parserlib` this library does not have:
 
 - support for generic left recursion; only the immediate form is supported.
 - templates.

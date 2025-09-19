@@ -46,7 +46,7 @@ namespace xparserlib {
     }
 
 
-    struct parse_context::state parse_context::state() const {
+    class parse_context::state parse_context::state() const {
         return { m_position, m_matches.size() };
     }
 
@@ -71,7 +71,7 @@ namespace xparserlib {
     }
 
 
-    void parse_context::set_state(const struct state& state) {
+    void parse_context::set_state(const class state& state) {
         m_position = state.position;
         m_matches.resize(state.match_count);
     }

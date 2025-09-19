@@ -321,12 +321,12 @@ static void test_match() {
         assert(result);
         assert(pc.position() == input.end());
         assert(pc.matches().size() == 2);
-        assert(pc.matches()[0].type == 1);
-        assert(pc.matches()[0].begin == input.begin());
-        assert(pc.matches()[0].end == input.begin() + 1);
-        assert(pc.matches()[1].type == 2);
-        assert(pc.matches()[1].begin == input.begin() + 1);
-        assert(pc.matches()[1].end == input.end());
+        assert(pc.matches()[0].type() == 1);
+        assert(pc.matches()[0].begin() == input.begin());
+        assert(pc.matches()[0].end() == input.begin() + 1);
+        assert(pc.matches()[1].type() == 2);
+        assert(pc.matches()[1].begin() == input.begin() + 1);
+        assert(pc.matches()[1].end() == input.end());
     }
 }
 
@@ -369,10 +369,10 @@ static void test_left_recursion() {
             std::vector<double> stack;
 
             for (const match& m : matches) {
-                switch (m.type) {
+                switch (m.type()) {
                     case NUM: {
                         std::stringstream stream;
-                        for (auto it = m.begin; it != m.end; ++it) {
+                        for (auto it = m.begin(); it != m.end(); ++it) {
                             stream << (char)*it;
                         }
                         double v;

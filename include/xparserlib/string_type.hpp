@@ -8,7 +8,7 @@
 namespace xparserlib {
 
 
-    struct match;
+    class match;
 
 
     /**

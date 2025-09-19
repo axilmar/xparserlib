@@ -24,7 +24,7 @@ namespace xparserlib {
          * Opaque type, used by parser classes to rewind the state
          * of parsing to a particular point.
          */
-        struct state {
+        class state {
         private:
             const iterator_type position;
             const size_t match_count;
@@ -74,7 +74,7 @@ namespace xparserlib {
          * Returns the current state.
          * @return the current state.
          */
-        struct state state() const;
+        class state state() const;
 
         /**
          * Increments the current position by 1.
@@ -102,7 +102,7 @@ namespace xparserlib {
          * Sets the current state from a previously recorded state.
          * @param state the state to set.
          */
-        void set_state(const struct state& state);
+        void set_state(const class state& state);
 
     private:
         //current position

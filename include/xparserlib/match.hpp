@@ -17,21 +17,43 @@ namespace xparserlib {
     /**
      * A match.
      */
-    struct match {
+    class match {
+    public:
         /**
-         * Type of match.
+         * The default constructor.
          */
-        match_type type;
+        match() {}
 
         /**
-         * Where the match begins, in the source.
+         * The constructor.
+         * @param type type of match.
+         * @param begin begin position.
+         * @param end end position.
          */
-        iterator_type begin;
+        match(match_type type, const iterator_type& begin, const iterator_type& end);
 
         /**
-         * Where the match ends, in the source.
+         * Returns the type of match.
+         * @return the type of match.
          */
-        iterator_type end;
+        match_type type() const;
+
+        /**
+         * Returns an iterator at where the match begins, in the source.
+         * @return iterator to the match start.
+         */
+        const iterator_type& begin() const;
+
+        /**
+         * Returns an iterator at where the match ends, in the source.
+         * @return iterator to the match end.
+         */
+        const iterator_type& end() const;
+
+    private:
+        match_type m_type;
+        iterator_type m_begin;
+        iterator_type m_end;
     };
 
 

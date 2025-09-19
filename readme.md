@@ -7,3 +7,15 @@ Developing a parser requires lots and lots of compilations, due to the many tria
 While the [`parserlib`](https://github.com/axilmar/parserlib) library has achieved its purpose of providing a runtime-efficient modern parsing library, it is not compile-time friendly, due to excessive use of templates. 
 
 Therefore, this library is also a recursive-descent library, based on the same principles as `parserlib`, but it avoids templates when it can, replacing it with polymorhic classes, in order to be compile-time-efficient.
+
+What this library does and `parserlib` also does:
+
+- use of c++ operators `(>>, |, *, +, -, &, !, ->*)` for grammar expressions.
+- support for strings, sets and ranges.
+- support for immediate left recursion.
+
+What this library doesn't do and `parserlib` does:
+
+- support for generic left recursion; only the immediate form is supported.
+- templates.
+

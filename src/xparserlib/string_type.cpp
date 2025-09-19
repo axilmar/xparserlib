@@ -26,7 +26,7 @@ namespace xparserlib {
         : std::vector<symbol_type>(tokens.size())
     {
         for (size_t index = 0; index < tokens.size(); ++index) {
-            std::vector<symbol_type>::operator[](index) = tokens[index].type;
+            std::vector<symbol_type>::operator[](index) = tokens[index].type();
         }
     }
 

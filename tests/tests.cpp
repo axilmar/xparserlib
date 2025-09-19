@@ -1,4 +1,5 @@
 #include <cassert>
+#include <iostream>
 #include <sstream>
 #include "xparserlib.hpp"
 
@@ -341,7 +342,9 @@ static void test_left_recursion() {
 
     rule add;
 
-    rule num = +range('0', '9') ->* NUM;
+    auto digit = +range('0', '9');
+
+    rule num = (digit >> '.' >> digit)->*NUM;
 
     rule val = num
              | '(' >> add >> ')';
@@ -379,33 +382,45 @@ static void test_left_recursion() {
                     }
 
                     case ADD: {
-                        assert(stack.size() == 2);
-                        const double v = stack[0] + stack[1];
-                        stack.clear();
+                        assert(stack.size() >= 2);
+                        const double a1 = *(stack.end() - 2);
+                        const double a2 = *(stack.end() - 1);
+                        const double v = a1 + a2;
+                        stack.pop_back();
+                        stack.pop_back();
                         stack.push_back(v);
                         break;
                     }
 
                     case SUB: {
-                        assert(stack.size() == 2);
-                        const double v = stack[0] - stack[1];
-                        stack.clear();
+                        assert(stack.size() >= 2);
+                        const double a1 = *(stack.end() - 2);
+                        const double a2 = *(stack.end() - 1);
+                        const double v = a1 - a2;
+                        stack.pop_back();
+                        stack.pop_back();
                         stack.push_back(v);
                         break;
                     }
 
                     case MUL: {
-                        assert(stack.size() == 2);
-                        const double v = stack[0] * stack[1];
-                        stack.clear();
+                        assert(stack.size() >= 2);
+                        const double a1 = *(stack.end() - 2);
+                        const double a2 = *(stack.end() - 1);
+                        const double v = a1 * a2;
+                        stack.pop_back();
+                        stack.pop_back();
                         stack.push_back(v);
                         break;
                     }
 
                     case DIV: {
-                        assert(stack.size() == 2);
-                        const double v = stack[0] / stack[1];
-                        stack.clear();
+                        assert(stack.size() >= 2);
+                        const double a1 = *(stack.end() - 2);
+                        const double a2 = *(stack.end() - 1);
+                        const double v = a1 / a2;
+                        stack.pop_back();
+                        stack.pop_back();
                         stack.push_back(v);
                         break;
                     }
@@ -423,11 +438,36 @@ static void test_left_recursion() {
         parse_context pc(input);\
         const bool result = add.parse(pc);\
         assert(result);\
-        assert(calculator::eval(pc.matches()) == F);\
+        const double v = F;\
+        const double r = calculator::eval(pc.matches());\
+        if (v != r) {\
+            std::cout << "Assertion failed: " << v << " == " << r << ", file " << __FILE__ << ", line " << __LINE__ << std::endl;\
+        }\
     }
 
-    CALC_TEST(1);
-    CALC_TEST(1+2);
+    CALC_TEST(1.0);
+    CALC_TEST(1.0+2.0);
+    CALC_TEST(1.0+2.0+3.0);
+    CALC_TEST(1.0+2.0*3.0);
+    CALC_TEST(1.0+2.0/3.0);
+    CALC_TEST(1.0*2.0+3.0);
+    CALC_TEST(1.0/2.0+3.0);
+    CALC_TEST(1.0-2.0);
+    CALC_TEST(1.0-2.0-3.0);
+    CALC_TEST(1.0-2.0*3.0);
+    CALC_TEST(1.0-2.0/3.0);
+    CALC_TEST(1.0*2.0-3.0);
+    CALC_TEST(1.0/2.0-3.0);
+    CALC_TEST(1.0+2.0-3.0*4.0/5.0);
+    CALC_TEST(1.0/2.0*3.0-4.0+5.0);
+    CALC_TEST((1.0+2.0)*3.0);
+    CALC_TEST(1.0+(2.0*3.0));
+    CALC_TEST((1.0+2.0)/3.0);
+    CALC_TEST(1.0+(2.0/3.0));
+    CALC_TEST((1.0*2.0)+3.0);
+    CALC_TEST(1.0*(2.0+3.0));
+    CALC_TEST((1.0/2.0)+3.0);
+    CALC_TEST(1.0/(2.0+3.0));
 }
 
 

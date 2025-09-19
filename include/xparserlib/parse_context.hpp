@@ -2,49 +2,10 @@
 #define XPARSERLIB_PARSE_CONTEXT_HPP
 
 
-#include "string_type.hpp"
+#include "match.hpp"
 
 
 namespace xparserlib {
-
-
-    /**
-     * Iterator over a string.
-     */
-    using iterator_type = string_type::const_iterator;
-
-
-    /**
-     * The match type; integer, for efficiency.
-     */
-    using match_type = int;
-
-
-    /**
-     * A match.
-     */
-    struct match {
-        /**
-         * Type of match.
-         */
-        match_type type;
-
-        /**
-         * Where the match begins, in the source.
-         */
-        iterator_type begin;
-
-        /**
-         * Where the match ends, in the source.
-         */
-        iterator_type end;
-    };
-
-
-    /**
-     * Container of matches.
-     */
-    using matches_type = std::vector<match>;
 
 
     class lrm;

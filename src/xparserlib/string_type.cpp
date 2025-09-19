@@ -1,4 +1,4 @@
-#include "xparserlib/string_type.hpp"
+#include "xparserlib/match.hpp"
 
 
 namespace xparserlib {
@@ -18,6 +18,15 @@ namespace xparserlib {
             for (; *string; ++string) {
                 push_back(*string);
             }
+        }
+    }
+
+
+    string_type::string_type(const matches_type& tokens)
+        : std::vector<symbol_type>(tokens.size())
+    {
+        for (size_t index = 0; index < tokens.size(); ++index) {
+            std::vector<symbol_type>::operator[](index) = tokens[index].type;
         }
     }
 

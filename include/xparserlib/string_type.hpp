@@ -8,6 +8,15 @@
 namespace xparserlib {
 
 
+    struct match;
+
+
+    /**
+     * Container of matches.
+     */
+    using matches_type = std::vector<match>;
+
+
     /**
      * Symbols to parse are simple integers, for efficiency.
      * The library can be used to parse characters as well as tokens,
@@ -34,7 +43,21 @@ namespace xparserlib {
          * @param string null-terminated wide string.
          */
         string_type(const wchar_t* string);
+
+        /**
+         * Extracts an input string from a series of matches.
+         * Useful for tokenization.
+         * @param tokens tokens to use for extracting a string for parsing; 
+         *  the match type becomes the symbol to parse.
+         */
+        string_type(const matches_type& tokens);
     };
+
+
+    /**
+     * Iterator over a string.
+     */
+    using iterator_type = string_type::const_iterator;
 
 
 } //namespace xparserlib

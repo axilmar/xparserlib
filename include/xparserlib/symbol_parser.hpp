@@ -36,22 +36,6 @@ namespace xparserlib {
      * @param symbol symbol to create a symbol parser from.
      * @return a symbol parser.
      */
-    parser_ptr make_symbol_parser(symbol_type symbol);
-
-
-    /**
-     * Creates a parser out of a symbol.
-     * @param symbol symbol to create a symbol parser from.
-     * @return a symbol parser.
-     */
-    parser_ptr symbol(symbol_type symbol);
-
-
-    /**
-     * Creates a parser out of a symbol.
-     * @param symbol symbol to create a symbol parser from.
-     * @return a symbol parser.
-     */
     parser_ptr parser(symbol_type symbol);
 
 

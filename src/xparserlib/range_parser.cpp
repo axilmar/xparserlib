@@ -25,13 +25,8 @@ namespace xparserlib {
     }
 
 
-    parser_ptr make_range_parser(symbol_type min, symbol_type max) {
-        return std::make_shared<range_parser>(min, max);
-    }
-
-
     parser_ptr range(symbol_type min, symbol_type max) {
-        return make_range_parser(min, max);
+        return std::make_shared<range_parser>(min, max);
     }
 
 

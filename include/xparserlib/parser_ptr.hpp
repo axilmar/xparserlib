@@ -26,9 +26,27 @@ namespace xparserlib {
 
         /**
          * String parser constructor.
-         * @param symbol symbol.
+         * @param string string.
+         */
+        parser_ptr(const char* string);
+
+        /**
+         * String parser constructor.
+         * @param string string.
+         */
+        parser_ptr(const wchar_t* string);
+
+        /**
+         * String parser constructor.
+         * @param string string.
          */
         parser_ptr(const string_type& string);
+
+        /**
+         * Boolean parser constructor.
+         * @param value boolean value.
+         */
+        parser_ptr(bool value);
 
         /**
          * Creates a zero or more times loop out of this parser.

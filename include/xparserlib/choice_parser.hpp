@@ -51,26 +51,6 @@ namespace xparserlib {
 
 
     /**
-     * Creates a choice out of a parser and a symbol.
-     * Choice parsers are flattened.
-     * @param left the left operand.
-     * @param right the right operand.
-     * @return a choice parser that contains the left and right parsers.
-     */
-    parser_ptr operator | (const parser_ptr& left, symbol_type right);
-
-
-    /**
-     * Creates a choice out of a parser and a string.
-     * Choice parsers are flattened.
-     * @param left the left operand.
-     * @param right the right operand.
-     * @return a choice parser that contains the left and right parsers.
-     */
-    parser_ptr operator | (const parser_ptr& left, const string_type& right);
-
-
-    /**
      * Creates a choice out of a parser and a rule.
      * Choice parsers are flattened.
      * @param left the left operand.
@@ -78,82 +58,6 @@ namespace xparserlib {
      * @return a choice parser that contains the left and right parsers.
      */
     parser_ptr operator | (const parser_ptr& left, rule& right);
-
-
-    /* left: symbol_type */
-
-
-    /**
-     * Creates a choice out of a symbol and a parser.
-     * Choice parsers are flattened.
-     * @param left the left operand.
-     * @param right the right operand.
-     * @return a choice parser that contains parsers for the left and right operand.
-     */
-    parser_ptr operator | (symbol_type left, const parser_ptr& right);
-
-
-    /**
-     * Creates a choice out of a symbol and a string.
-     * Choice parsers are flattened.
-     * @param left the left operand.
-     * @param right the right operand.
-     * @return a choice parser that contains the left and right parsers.
-     */
-    parser_ptr operator | (symbol_type left, const string_type& right);
-
-
-    /**
-     * Creates a choice out of a symbol and a rule.
-     * Choice parsers are flattened.
-     * @param left the left operand.
-     * @param right the right operand.
-     * @return a choice parser that contains the left and right parsers.
-     */
-    parser_ptr operator | (symbol_type left, rule& right);
-
-
-    /* left: string_type */
-
-
-    /**
-     * Creates a choice out of a string and a parser.
-     * Choice parsers are flattened.
-     * @param left the left operand.
-     * @param right the right operand.
-     * @return a choice parser that contains parsers for the left and right operand.
-     */
-    parser_ptr operator | (const string_type& left, const parser_ptr& right);
-
-
-    /**
-     * Creates a choice out of a string and a symbol.
-     * Choice parsers are flattened.
-     * @param left the left operand.
-     * @param right the right operand.
-     * @return a choice parser that contains the left and right parsers.
-     */
-    parser_ptr operator | (const string_type& left, symbol_type right);
-
-
-    /**
-     * Creates a choice out of a string and a string.
-     * Choice parsers are flattened.
-     * @param left the left operand.
-     * @param right the right operand.
-     * @return a choice parser that contains the left and right parsers.
-     */
-    parser_ptr operator | (const string_type& left, const string_type& right);
-
-
-    /**
-     * Creates a choice out of a string and a rule.
-     * Choice parsers are flattened.
-     * @param left the left operand.
-     * @param right the right operand.
-     * @return a choice parser that contains the left and right parsers.
-     */
-    parser_ptr operator | (const string_type& left, rule& right);
 
 
     /* left: rule */
@@ -167,26 +71,6 @@ namespace xparserlib {
      * @return a choice parser that contains parsers for the left and right operand.
      */
     parser_ptr operator | (rule& left, const parser_ptr& right);
-
-
-    /**
-     * Creates a choice out of a rule and a symbol.
-     * Choice parsers are flattened.
-     * @param left the left operand.
-     * @param right the right operand.
-     * @return a choice parser that contains the left and right parsers.
-     */
-    parser_ptr operator | (rule& left, symbol_type right);
-
-
-    /**
-     * Creates a choice out of a rule and a string.
-     * Choice parsers are flattened.
-     * @param left the left operand.
-     * @param right the right operand.
-     * @return a choice parser that contains the left and right parsers.
-     */
-    parser_ptr operator | (rule& left, const string_type& right);
 
 
     /**

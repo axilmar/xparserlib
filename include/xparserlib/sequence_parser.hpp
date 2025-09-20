@@ -52,26 +52,6 @@ namespace xparserlib {
 
 
     /**
-     * Creates a sequence out of a parser and a symbol.
-     * Sequence parsers are flattened.
-     * @param left the left operand.
-     * @param right the right operand.
-     * @return a sequence parser that contains the left and right parsers.
-     */
-    parser_ptr operator >> (const parser_ptr& left, symbol_type right);
-
-
-    /**
-     * Creates a sequence out of a parser and a string.
-     * Sequence parsers are flattened.
-     * @param left the left operand.
-     * @param right the right operand.
-     * @return a sequence parser that contains the left and right parsers.
-     */
-    parser_ptr operator >> (const parser_ptr& left, const string_type& right);
-
-
-    /**
      * Creates a sequence out of a parser and a rule.
      * Sequence parsers are flattened.
      * @param left the left operand.
@@ -79,82 +59,6 @@ namespace xparserlib {
      * @return a sequence parser that contains the left and right parsers.
      */
     parser_ptr operator >> (const parser_ptr& left, rule& right);
-
-
-    /* left: symbol_type */
-
-
-    /**
-     * Creates a sequence out of a symbol and a parser.
-     * Sequence parsers are flattened.
-     * @param left the left operand.
-     * @param right the right operand.
-     * @return a sequence parser that contains parsers for the left and right operand.
-     */
-    parser_ptr operator >> (symbol_type left, const parser_ptr& right);
-
-
-    /**
-     * Creates a sequence out of a symbol and a string.
-     * Sequence parsers are flattened.
-     * @param left the left operand.
-     * @param right the right operand.
-     * @return a sequence parser that contains the left and right parsers.
-     */
-    parser_ptr operator >> (symbol_type left, const string_type& right);
-
-
-    /**
-     * Creates a sequence out of a symbol and a rule.
-     * Sequence parsers are flattened.
-     * @param left the left operand.
-     * @param right the right operand.
-     * @return a sequence parser that contains the left and right parsers.
-     */
-    parser_ptr operator >> (symbol_type left, rule& right);
-
-
-    /* left: string_type */
-
-
-    /**
-     * Creates a sequence out of a string and a parser.
-     * Sequence parsers are flattened.
-     * @param left the left operand.
-     * @param right the right operand.
-     * @return a sequence parser that contains parsers for the left and right operand.
-     */
-    parser_ptr operator >> (const string_type& left, const parser_ptr& right);
-
-
-    /**
-     * Creates a sequence out of a string and a symbol.
-     * Sequence parsers are flattened.
-     * @param left the left operand.
-     * @param right the right operand.
-     * @return a sequence parser that contains the left and right parsers.
-     */
-    parser_ptr operator >> (const string_type& left, symbol_type right);
-
-
-    /**
-     * Creates a sequence out of a string and a string.
-     * Sequence parsers are flattened.
-     * @param left the left operand.
-     * @param right the right operand.
-     * @return a sequence parser that contains the left and right parsers.
-     */
-    parser_ptr operator >> (const string_type& left, const string_type& right);
-
-
-    /**
-     * Creates a sequence out of a string and a rule.
-     * Sequence parsers are flattened.
-     * @param left the left operand.
-     * @param right the right operand.
-     * @return a sequence parser that contains the left and right parsers.
-     */
-    parser_ptr operator >> (const string_type& left, rule& right);
 
 
     /* left: rule */
@@ -168,26 +72,6 @@ namespace xparserlib {
      * @return a sequence parser that contains parsers for the left and right operand.
      */
     parser_ptr operator >> (rule& left, const parser_ptr& right);
-
-
-    /**
-     * Creates a sequence out of a rule and a symbol.
-     * Sequence parsers are flattened.
-     * @param left the left operand.
-     * @param right the right operand.
-     * @return a sequence parser that contains the left and right parsers.
-     */
-    parser_ptr operator >> (rule& left, symbol_type right);
-
-
-    /**
-     * Creates a sequence out of a rule and a string.
-     * Sequence parsers are flattened.
-     * @param left the left operand.
-     * @param right the right operand.
-     * @return a sequence parser that contains the left and right parsers.
-     */
-    parser_ptr operator >> (rule& left, const string_type& right);
 
 
     /**

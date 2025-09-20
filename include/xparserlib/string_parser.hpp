@@ -36,7 +36,7 @@ namespace xparserlib {
      * @param string string to create a string parser from.
      * @return a string parser.
      */
-    parser_ptr make_string_parser(const string_type& string);
+    parser_ptr parser(const char* string);
 
 
     /**
@@ -44,7 +44,7 @@ namespace xparserlib {
      * @param string string to create a string parser from.
      * @return a string parser.
      */
-    parser_ptr string(const string_type& string);
+    parser_ptr parser(const wchar_t* string);
 
 
     /**

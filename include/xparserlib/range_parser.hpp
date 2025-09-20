@@ -39,15 +39,6 @@ namespace xparserlib {
      * @param max max value of range.
      * @return a range parser.
      */
-    parser_ptr make_range_parser(symbol_type min, symbol_type max);
-
-
-    /**
-     * Creates a parser out of a range.
-     * @param min min value of range.
-     * @param max max value of range.
-     * @return a range parser.
-     */
     parser_ptr range(symbol_type min, symbol_type max);
 
 

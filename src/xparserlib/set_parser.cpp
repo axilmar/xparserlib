@@ -24,13 +24,8 @@ namespace xparserlib {
     }
 
 
-    parser_ptr make_set_parser(const string_type& set) {
-        return std::make_shared<set_parser>(set);
-    }
-
-
     parser_ptr set(const string_type& set) {
-        return make_set_parser(set);
+        return std::make_shared<set_parser>(set);
     }
 
 

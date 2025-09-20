@@ -22,7 +22,7 @@ namespace xparserlib {
         /**
          * Adds an error to the parse context, if the position is valid.
          * @param pc the parse context.
-         * @return true if pc position is valid, false otherwise.
+         * @return always false.
          */
         bool parse(parse_context& pc) const override;
 

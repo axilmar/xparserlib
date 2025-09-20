@@ -19,18 +19,8 @@ namespace xparserlib {
     }
 
 
-    parser_ptr make_symbol_parser(symbol_type symbol) {
-        return std::make_shared<symbol_parser>(symbol);
-    }
-
-
-    parser_ptr symbol(symbol_type symbol) {
-        return make_symbol_parser(symbol);
-    }
-
-
     parser_ptr parser(symbol_type symbol) {
-        return make_symbol_parser(symbol);
+        return std::make_shared<symbol_parser>(symbol);
     }
 
 

@@ -36,14 +36,6 @@ namespace xparserlib {
      * @param set set to create a set parser from.
      * @return a set parser.
      */
-    parser_ptr make_set_parser(const string_type& set);
-
-
-    /**
-     * Creates a parser out of a set.
-     * @param set set to create a set parser from.
-     * @return a set parser.
-     */
     parser_ptr set(const string_type& set);
 
 

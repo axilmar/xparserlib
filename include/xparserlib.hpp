@@ -11,6 +11,8 @@
 #include "xparserlib/match_parser.hpp"
 #include "xparserlib/error_parser.hpp"
 #include "xparserlib/skip_parser.hpp"
+#include "xparserlib/bool_parser.hpp"
+#include "xparserlib/end_parser.hpp"
 
 
 #endif //XPARSERLIB_HPP

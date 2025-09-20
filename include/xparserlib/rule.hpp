@@ -30,7 +30,25 @@ namespace xparserlib {
          * Constructor from string.
          * @param string string.
          */
+        rule(const char* string);
+
+        /**
+         * Constructor from string.
+         * @param string string.
+         */
+        rule(const wchar_t* string);
+
+        /**
+         * Constructor from string.
+         * @param string string.
+         */
         rule(const string_type& string);
+
+        /**
+         * Constructor from boolean.
+         * @param value boolean value.
+         */
+        rule(bool value);
 
         /**
          * Assignment from parser.

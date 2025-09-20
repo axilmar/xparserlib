@@ -10,6 +10,7 @@
 #include "xparserlib/sequence_parser.hpp"
 #include "xparserlib/choice_parser.hpp"
 #include "xparserlib/match_parser.hpp"
+#include "xparserlib/bool_parser.hpp"
 
 
 namespace xparserlib {
@@ -197,8 +198,26 @@ namespace xparserlib {
     }
 
 
-    rule::rule(const string_type& string) 
+    rule::rule(const char* string)
         : rule(parser(string))
+    {
+    }
+
+
+    rule::rule(const wchar_t* string)
+        : rule(parser(string))
+    {
+    }
+
+
+    rule::rule(const string_type& string)
+        : rule(parser(string))
+    {
+    }
+
+
+    rule::rule(bool value)
+        : rule(parser(value))
     {
     }
 

@@ -3,6 +3,7 @@
 
 
 #include "parser.hpp"
+#include <initializer_list>
 
 
 namespace xparserlib {
@@ -43,6 +44,12 @@ namespace xparserlib {
          * @param string string.
          */
         rule(const string_type& string);
+
+        /**
+         * Constructor from string.
+         * @param string string.
+         */
+        rule(const std::initializer_list<symbol_type>& string);
 
         /**
          * Constructor from boolean.

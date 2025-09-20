@@ -35,6 +35,12 @@ namespace xparserlib {
     }
 
 
+    parser_ptr::parser_ptr(const std::initializer_list<symbol_type>& string)
+        : std::shared_ptr<class parser>(parser(string))
+    {
+    }
+
+
     parser_ptr::parser_ptr(bool value)
         : std::shared_ptr<class parser>(parser(value))
     {

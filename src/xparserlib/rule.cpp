@@ -216,6 +216,12 @@ namespace xparserlib {
     }
 
 
+    rule::rule(const std::initializer_list<symbol_type>& string)
+        : rule(parser(string))
+    {
+    }
+
+
     rule::rule(bool value)
         : rule(parser(value))
     {

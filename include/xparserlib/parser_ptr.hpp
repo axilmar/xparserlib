@@ -3,6 +3,7 @@
 
 
 #include <memory>
+#include <initializer_list>
 
 
 namespace xparserlib {
@@ -41,6 +42,12 @@ namespace xparserlib {
          * @param string string.
          */
         parser_ptr(const string_type& string);
+
+        /**
+         * String parser constructor.
+         * @param string string.
+         */
+        parser_ptr(const std::initializer_list<symbol_type>& string);
 
         /**
          * Boolean parser constructor.

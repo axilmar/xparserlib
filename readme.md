@@ -65,6 +65,9 @@ Grammatic expressions include:
     rule s3 = {1, 2, 3};
     rule s4 = {'1', '2', '3'};
     
+    //booleans
+    rule b1 = 'a' | true;
+    
     //sets
     rule digits1 = set({'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'});
     

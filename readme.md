@@ -110,7 +110,7 @@ Grammatic expressions include:
 /* calculator */
 
 enum CALC {
-	VAL,
+	NUM,
     ADD,
     SUB,
     MUL,
@@ -121,7 +121,7 @@ extern rule expression;
 
 rule digit = range('0', '9');
 
-rule number = +digit >> -('.' >> +digit);
+rule number = (+digit >> -('.' >> +digit)) ->* NUM;
 
 rule val = '(' >> expression >> ')';
 

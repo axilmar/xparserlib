@@ -8,6 +8,9 @@
 namespace xparserlib {
 
 
+    class tapm;
+
+
     /**
      * The match type; integer, for efficiency.
      */
@@ -62,6 +65,8 @@ namespace xparserlib {
         iterator_type m_begin;
         iterator_type m_end;
         matches_type m_children;
+
+        friend class tapm;
     };
 
 

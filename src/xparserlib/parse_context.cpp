@@ -46,6 +46,11 @@ namespace xparserlib {
     }
 
 
+    bool parse_context::ended() const {
+        return m_position == m_end;
+    }
+
+
     class parse_context::state parse_context::state() const {
         return { m_position, m_matches.size() };
     }

@@ -30,6 +30,18 @@ namespace xparserlib {
          * String parser constructor.
          * @param string string.
          */
+        parser_ptr(const char* string);
+
+        /**
+         * String parser constructor.
+         * @param string string.
+         */
+        parser_ptr(const wchar_t* string);
+
+        /**
+         * String parser constructor.
+         * @param string string.
+         */
         parser_ptr(const string_type& string);
 
         /**

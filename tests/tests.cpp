@@ -358,10 +358,13 @@ static void test_left_recursion() {
         | (add >> '-' >> mul) ->* SUB
         | mul;
 
+    /*
+    //used for debugging purposes
     add.name = "add";
     mul.name = "mul";
     val.name = "val";
     num.name = "num";
+    */
 
     class calculator {
     public:
@@ -411,7 +414,7 @@ static void test_left_recursion() {
         }
     };
 
-    #define CALC_TEST(F)\
+    #define CALC_TEST_1(F)\
     {\
         string_type input = #F;\
         parse_context pc(input);\
@@ -424,29 +427,29 @@ static void test_left_recursion() {
         }\
     }
 
-    CALC_TEST(1.0);
-    CALC_TEST(1.0+2.0);
-    CALC_TEST(1.0+2.0+3.0);
-    CALC_TEST(1.0+2.0*3.0);
-    CALC_TEST(1.0+2.0/3.0);
-    CALC_TEST(1.0*2.0+3.0);
-    CALC_TEST(1.0/2.0+3.0);
-    CALC_TEST(1.0-2.0);
-    CALC_TEST(1.0-2.0-3.0);
-    CALC_TEST(1.0-2.0*3.0);
-    CALC_TEST(1.0-2.0/3.0);
-    CALC_TEST(1.0*2.0-3.0);
-    CALC_TEST(1.0/2.0-3.0);
-    CALC_TEST(1.0+2.0-3.0*4.0/5.0);
-    CALC_TEST(1.0/2.0*3.0-4.0+5.0);
-    CALC_TEST((1.0+2.0)*3.0);
-    CALC_TEST(1.0+(2.0*3.0));
-    CALC_TEST((1.0+2.0)/3.0);
-    CALC_TEST(1.0+(2.0/3.0));
-    CALC_TEST((1.0*2.0)+3.0);
-    CALC_TEST(1.0*(2.0+3.0));
-    CALC_TEST((1.0/2.0)+3.0);
-    CALC_TEST(1.0/(2.0+3.0));
+    CALC_TEST_1(1.0);
+    CALC_TEST_1(1.0+2.0);
+    CALC_TEST_1(1.0+2.0+3.0);
+    CALC_TEST_1(1.0+2.0*3.0);
+    CALC_TEST_1(1.0+2.0/3.0);
+    CALC_TEST_1(1.0*2.0+3.0);
+    CALC_TEST_1(1.0/2.0+3.0);
+    CALC_TEST_1(1.0-2.0);
+    CALC_TEST_1(1.0-2.0-3.0);
+    CALC_TEST_1(1.0-2.0*3.0);
+    CALC_TEST_1(1.0-2.0/3.0);
+    CALC_TEST_1(1.0*2.0-3.0);
+    CALC_TEST_1(1.0/2.0-3.0);
+    CALC_TEST_1(1.0+2.0-3.0*4.0/5.0);
+    CALC_TEST_1(1.0/2.0*3.0-4.0+5.0);
+    CALC_TEST_1((1.0+2.0)*3.0);
+    CALC_TEST_1(1.0+(2.0*3.0));
+    CALC_TEST_1((1.0+2.0)/3.0);
+    CALC_TEST_1(1.0+(2.0/3.0));
+    CALC_TEST_1((1.0*2.0)+3.0);
+    CALC_TEST_1(1.0*(2.0+3.0));
+    CALC_TEST_1((1.0/2.0)+3.0);
+    CALC_TEST_1(1.0/(2.0+3.0));
 }
 
 
@@ -468,6 +471,140 @@ static void test_error() {
 }
 
 
+static void test_tokenize_and_parse() {
+    enum TOKEN_ID {
+        TOKEN_NUM,
+        TOKEN_ADD,
+        TOKEN_SUB,
+        TOKEN_MUL,
+        TOKEN_DIV,
+        TOKEN_LEFT_PARENTHESIS,
+        TOKEN_RIGHT_PARENTHESIS
+    };
+
+    rule tokenizer_grammar = *(
+        parser(' ') |
+        (+range('0', '9') >> -('.' >> +range('0', '9')))->*TOKEN_NUM |
+        parser('+')->*TOKEN_ADD |
+        parser('-')->*TOKEN_SUB |
+        parser('*')->*TOKEN_MUL |
+        parser('/')->*TOKEN_DIV |
+        parser('(')->*TOKEN_LEFT_PARENTHESIS |
+        parser(')')->*TOKEN_RIGHT_PARENTHESIS
+    );
+
+    enum AST_ID {
+        AST_NUM,
+        AST_ADD,
+        AST_SUB,
+        AST_MUL,
+        AST_DIV
+    };
+
+    rule parser_grammar;
+
+    rule num = parser(TOKEN_NUM)->*AST_NUM;
+
+    rule val = num
+             | TOKEN_LEFT_PARENTHESIS >> parser_grammar >> TOKEN_RIGHT_PARENTHESIS;
+
+    rule mul = (mul >> TOKEN_MUL >> val)->*AST_MUL
+             | (mul >> TOKEN_DIV >> val)->*AST_DIV
+             | val;
+
+    rule add = (add >> TOKEN_ADD >> mul)->*AST_ADD
+             | (add >> TOKEN_SUB >> mul)->*AST_SUB
+             | mul;
+
+    parser_grammar = add;
+
+    class calculator {
+    public:
+        static double eval(const match& m) {
+            switch (m.type()) {
+            case AST_NUM: {
+                std::stringstream stream;
+                for (auto it = m.begin(); it != m.end(); ++it) {
+                    stream << (char)*it;
+                }
+                double v;
+                stream >> v;
+                return v;
+            }
+
+            case AST_ADD: {
+                assert(m.children().size() == 2);
+                const double v = eval(m.children()[0]) + eval(m.children()[1]);
+                return v;
+            }
+
+            case AST_SUB: {
+                assert(m.children().size() == 2);
+                const double v = eval(m.children()[0]) - eval(m.children()[1]);
+                return v;
+            }
+
+            case AST_MUL: {
+                assert(m.children().size() == 2);
+                const double v = eval(m.children()[0]) * eval(m.children()[1]);
+                return v;
+            }
+
+            case AST_DIV: {
+                assert(m.children().size() == 2);
+                const double v = eval(m.children()[0]) / eval(m.children()[1]);
+                return v;
+            }
+            }
+
+            throw std::runtime_error("invalid match type");
+        }
+
+        static double eval(const matches_type& matches) {
+            assert(matches.size() == 1);
+            return eval(matches[0]);
+        }
+    };
+
+    #define CALC_TEST_2(F)\
+    {\
+        string_type input = #F;\
+        tokenize_and_parse_result tapr;\
+        const bool result = tokenize_and_parse(input, tokenizer_grammar, parser_grammar, tapr);\
+        assert(result);\
+        const double v = F;\
+        const double r = calculator::eval(tapr.parsing.source_matches);\
+        if (v != r) {\
+            std::cout << "Assertion failed: " << v << " == " << r << ", file " << __FILE__ << ", line " << __LINE__ << std::endl;\
+        }\
+    }
+
+    CALC_TEST_2(1.0);
+    CALC_TEST_2(1.0 + 2.0);
+    CALC_TEST_2(1.0 + 2.0 + 3.0);
+    CALC_TEST_2(1.0 + 2.0 * 3.0);
+    CALC_TEST_2(1.0 + 2.0 / 3.0);
+    CALC_TEST_2(1.0 * 2.0 + 3.0);
+    CALC_TEST_2(1.0 / 2.0 + 3.0);
+    CALC_TEST_2(1.0 - 2.0);
+    CALC_TEST_2(1.0 - 2.0 - 3.0);
+    CALC_TEST_2(1.0 - 2.0 * 3.0);
+    CALC_TEST_2(1.0 - 2.0 / 3.0);
+    CALC_TEST_2(1.0 * 2.0 - 3.0);
+    CALC_TEST_2(1.0 / 2.0 - 3.0);
+    CALC_TEST_2(1.0 + 2.0 - 3.0 * 4.0 / 5.0);
+    CALC_TEST_2(1.0 / 2.0 * 3.0 - 4.0 + 5.0);
+    CALC_TEST_2((1.0 + 2.0) * 3.0);
+    CALC_TEST_2(1.0 + (2.0 * 3.0));
+    CALC_TEST_2((1.0 + 2.0) / 3.0);
+    CALC_TEST_2(1.0 + (2.0 / 3.0));
+    CALC_TEST_2((1.0 * 2.0) + 3.0);
+    CALC_TEST_2(1.0 * (2.0 + 3.0));
+    CALC_TEST_2((1.0 / 2.0) + 3.0);
+    CALC_TEST_2(1.0 / (2.0 + 3.0));
+}
+
+
 void run_tests() {
     test_symbol_parser();
     test_string_parser();
@@ -482,4 +619,5 @@ void run_tests() {
     test_match();
     test_left_recursion();
     test_error();
+    test_tokenize_and_parse();
 }

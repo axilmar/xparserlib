@@ -72,6 +72,12 @@ namespace xparserlib {
         bool valid() const;
 
         /**
+         * Checks if current position points to the end position.
+         * @return true if current position points to the end position, false otherwise.
+         */
+        bool ended() const;
+
+        /**
          * Returns the current state.
          * @return the current state.
          */

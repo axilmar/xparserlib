@@ -13,6 +13,7 @@
 #include "xparserlib/skip_parser.hpp"
 #include "xparserlib/bool_parser.hpp"
 #include "xparserlib/end_parser.hpp"
+#include "xparserlib/tokenize_and_parse.hpp"
 
 
 #endif //XPARSERLIB_HPP

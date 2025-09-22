@@ -4,6 +4,7 @@
 
 #include <memory>
 #include <initializer_list>
+#include "string_type.hpp"
 
 
 namespace xparserlib {
@@ -24,18 +25,6 @@ namespace xparserlib {
          * @param symbol symbol.
          */
         parser_ptr(symbol_type symbol);
-
-        /**
-         * String parser constructor.
-         * @param string string.
-         */
-        parser_ptr(const char* string);
-
-        /**
-         * String parser constructor.
-         * @param string string.
-         */
-        parser_ptr(const wchar_t* string);
 
         /**
          * String parser constructor.

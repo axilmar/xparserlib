@@ -28,16 +28,6 @@ namespace xparserlib {
     }
 
 
-    parser_ptr parser(const char* string) {
-        return parser(string_type(string));
-    }
-
-
-    parser_ptr parser(const wchar_t* string) {
-        return parser(string_type(string));
-    }
-
-
     parser_ptr parser(const string_type& string) {
         return std::make_shared<string_parser>(string);
     }

@@ -3,6 +3,7 @@
 
 
 #include <vector>
+#include <string>
 
 
 namespace xparserlib {
@@ -43,6 +44,18 @@ namespace xparserlib {
          * @param string null-terminated wide string.
          */
         string_type(const wchar_t* string);
+
+        /**
+         * Constructor from string object.
+         * @param string string object.
+         */
+        string_type(const std::string& string);
+
+        /**
+         * Constructor from wide string object.
+         * @param string string object.
+         */
+        string_type(const std::wstring& string);
 
         /**
          * Extracts an input string from a series of matches.

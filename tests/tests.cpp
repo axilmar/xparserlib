@@ -605,6 +605,27 @@ static void test_tokenize_and_parse() {
 }
 
 
+static void test_any() {
+    {
+        parser_ptr grammar = any();
+        string_type input = "a";
+        parse_context pc(input);
+        const bool result = grammar->parse(pc);
+        assert(result);
+        assert(pc.position() == input.end());
+    }
+
+    {
+        parser_ptr grammar = any();
+        string_type input = "b";
+        parse_context pc(input);
+        const bool result = grammar->parse(pc);
+        assert(result);
+        assert(pc.position() == input.end());
+    }
+}
+
+
 void run_tests() {
     test_symbol_parser();
     test_string_parser();
@@ -620,4 +641,5 @@ void run_tests() {
     test_left_recursion();
     test_error();
     test_tokenize_and_parse();
+    test_any();
 }

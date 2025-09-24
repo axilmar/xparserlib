@@ -45,6 +45,7 @@ Grammatic expressions include:
 	- loops
 	- optionals
 	- logical operations (`and` and `not`)
+	- exclusions
 - other:
 	- matches
 	- errors
@@ -88,6 +89,7 @@ Grammatic expressions include:
     rule optional = -parser('a');
     rule match_a = &parser('a');
     rule match_not_a = !parser('a');
+    rule match_any_except_a = any() - 'a';
 ```
 
 ### Other

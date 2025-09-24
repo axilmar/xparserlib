@@ -83,6 +83,55 @@ namespace xparserlib {
      */
     parser_ptr operator >> (rule& left, rule& right);
 
+    
+    /** exclusion **/
+
+
+    /* left: parser_ptr */
+
+
+    /**
+     * Creates an exclusion out of two parsers.
+     * The exclusion is turned into the sequence "!(right) >> left".
+     * @param left the left operand.
+     * @param right the right operand.
+     * @return a sequence parser that contains the sequence "!(right) >> left".
+     */
+    parser_ptr operator - (const parser_ptr& left, const parser_ptr& right);
+
+
+    /**
+     * Creates an exclusion out of a parser and a rule.
+     * Sequence parsers are flattened.
+     * @param left the left operand.
+     * @param right the right operand.
+     * @return a sequence parser that contains the sequence "!(right) >> left".
+     */
+    parser_ptr operator - (const parser_ptr& left, rule& right);
+
+
+    /* left: rule */
+
+
+    /**
+     * Creates an exclusion out of a rule and a parser.
+     * Sequence parsers are flattened.
+     * @param left the left operand.
+     * @param right the right operand.
+     * @return a sequence parser that contains the sequence "!(right) >> left".
+     */
+    parser_ptr operator - (rule& left, const parser_ptr& right);
+
+
+    /**
+     * Creates an exclusion out of a rule and a rule.
+     * Sequence parsers are flattened.
+     * @param left the left operand.
+     * @param right the right operand.
+     * @return a sequence parser that contains the sequence "!(right) >> left".
+     */
+    parser_ptr operator - (rule& left, rule& right);
+
 
 } //namespace xparserlib
 

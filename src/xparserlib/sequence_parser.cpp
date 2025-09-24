@@ -154,4 +154,24 @@ namespace xparserlib {
     }
 
 
+    parser_ptr operator - (const parser_ptr& left, const parser_ptr& right) {
+        return !right >> left;
+    }
+
+
+    parser_ptr operator - (const parser_ptr& left, rule& right) {
+        return !right >> left;
+    }
+
+
+    parser_ptr operator - (rule& left, const parser_ptr& right) {
+        return !right >> left;
+    }
+
+
+    parser_ptr operator - (rule& left, rule& right) {
+        return !right >> left;
+    }
+
+
 } //namespace xparserlib

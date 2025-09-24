@@ -626,6 +626,27 @@ static void test_any() {
 }
 
 
+static void test_repeat_times_parser() {
+    {
+        parser_ptr grammar = 3 * parser('a');
+        string_type input = "aaa";
+        parse_context pc(input);
+        const bool result = grammar->parse(pc);
+        assert(result);
+        assert(pc.position() == input.end());
+    }
+
+    {
+        parser_ptr grammar = 3 * parser('a');
+        string_type input = "aab";
+        parse_context pc(input);
+        const bool result = grammar->parse(pc);
+        assert(!result);
+        assert(pc.position() == input.begin());
+    }
+}
+
+
 void run_tests() {
     test_symbol_parser();
     test_string_parser();
@@ -642,4 +663,5 @@ void run_tests() {
     test_error();
     test_tokenize_and_parse();
     test_any();
+    test_repeat_times_parser();
 }

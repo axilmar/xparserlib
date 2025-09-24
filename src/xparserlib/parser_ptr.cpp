@@ -6,6 +6,7 @@
 #include "xparserlib/logical_and_parser.hpp"
 #include "xparserlib/logical_not_parser.hpp"
 #include "xparserlib/bool_parser.hpp"
+#include "xparserlib/rule.hpp"
 
 
 namespace xparserlib {
@@ -43,6 +44,12 @@ namespace xparserlib {
 
     parser_ptr::parser_ptr(bool value)
         : std::shared_ptr<class parser>(parser(value))
+    {
+    }
+
+
+    parser_ptr::parser_ptr(class rule& rule)
+        : std::shared_ptr<class parser>(parser(rule))
     {
     }
 

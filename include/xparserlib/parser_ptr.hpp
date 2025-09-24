@@ -11,6 +11,7 @@ namespace xparserlib {
 
 
     class parser;
+    class rule;
 
 
     /**
@@ -55,6 +56,12 @@ namespace xparserlib {
          * @param value boolean value.
          */
         parser_ptr(bool value);
+
+        /**
+         * Rule parser constructor.
+         * @param rule rule.
+         */
+        parser_ptr(class rule& rule);
 
         /**
          * Creates a zero or more times loop out of this parser.

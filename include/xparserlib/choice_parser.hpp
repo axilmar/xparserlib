@@ -37,9 +37,6 @@ namespace xparserlib {
     };
 
 
-    /* left: parser_ptr */
-
-
     /**
      * Creates a choice out of two parsers.
      * Choice parsers are flattened.
@@ -48,39 +45,6 @@ namespace xparserlib {
      * @return a choice parser that contains parsers for the left and right operand.
      */
     parser_ptr operator | (const parser_ptr& left, const parser_ptr& right);
-
-
-    /**
-     * Creates a choice out of a parser and a rule.
-     * Choice parsers are flattened.
-     * @param left the left operand.
-     * @param right the right operand.
-     * @return a choice parser that contains the left and right parsers.
-     */
-    parser_ptr operator | (const parser_ptr& left, rule& right);
-
-
-    /* left: rule */
-
-
-    /**
-     * Creates a choice out of a rule and a parser.
-     * Choice parsers are flattened.
-     * @param left the left operand.
-     * @param right the right operand.
-     * @return a choice parser that contains parsers for the left and right operand.
-     */
-    parser_ptr operator | (rule& left, const parser_ptr& right);
-
-
-    /**
-     * Creates a choice out of a rule and a rule.
-     * Choice parsers are flattened.
-     * @param left the left operand.
-     * @param right the right operand.
-     * @return a choice parser that contains the left and right parsers.
-     */
-    parser_ptr operator | (rule& left, rule& right);
 
 
 } //namespace xparserlib

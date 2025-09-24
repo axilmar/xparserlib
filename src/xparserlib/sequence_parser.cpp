@@ -31,10 +31,6 @@ namespace xparserlib {
     }
 
 
-
-    /* left: parser_ptr */
-
-
     parser_ptr operator >> (const parser_ptr& left, const parser_ptr& right) {
         sequence_parser* l = dynamic_cast<sequence_parser*>(left.get());
         sequence_parser* r = dynamic_cast<sequence_parser*>(right.get());
@@ -51,125 +47,7 @@ namespace xparserlib {
     }
 
 
-    parser_ptr operator >> (const parser_ptr& left, symbol_type right) {
-        sequence_parser* l = dynamic_cast<sequence_parser*>(left.get());
-        if (l) {
-            return std::make_shared<sequence_parser>(l->parsers() + parser(right));
-        }
-        return std::make_shared<sequence_parser>(parsers_type{ left, parser(right) });
-    }
-
-
-    parser_ptr operator >> (const parser_ptr& left, const string_type& right) {
-        sequence_parser* l = dynamic_cast<sequence_parser*>(left.get());
-        if (l) {
-            return std::make_shared<sequence_parser>(l->parsers() + parser(right));
-        }
-        return std::make_shared<sequence_parser>(parsers_type{ left, parser(right) });
-    }
-
-
-    parser_ptr operator >> (const parser_ptr& left, rule& right) {
-        sequence_parser* l = dynamic_cast<sequence_parser*>(left.get());
-        if (l) {
-            return std::make_shared<sequence_parser>(l->parsers() + parser(right));
-        }
-        return std::make_shared<sequence_parser>(parsers_type{ left, parser(right) });
-    }
-
-
-    /* left: symbol_type */
-
-
-    parser_ptr operator >> (symbol_type left, const parser_ptr& right) {
-        sequence_parser* r = dynamic_cast<sequence_parser*>(right.get());
-        if (r) {
-            return std::make_shared<sequence_parser>(parser(left) + r->parsers());
-        }
-        return std::make_shared<sequence_parser>(parsers_type{ parser(left), right });
-    }
-
-
-    parser_ptr operator >> (symbol_type left, const string_type& right) {
-        return std::make_shared<sequence_parser>(parsers_type{ parser(left), parser(right) });
-    }
-
-
-    parser_ptr operator >> (symbol_type left, rule& right) {
-        return std::make_shared<sequence_parser>(parsers_type{ parser(left), parser(right) });
-    }
-
-
-    /* left: string_type */
-
-
-    parser_ptr operator >> (const string_type& left, const parser_ptr& right) {
-        sequence_parser* r = dynamic_cast<sequence_parser*>(right.get());
-        if (r) {
-            return std::make_shared<sequence_parser>(parser(left) + r->parsers());
-        }
-        return std::make_shared<sequence_parser>(parsers_type{ parser(left), right });
-    }
-
-
-    parser_ptr operator >> (const string_type& left, symbol_type right) {
-        return std::make_shared<sequence_parser>(parsers_type{ parser(left), parser(right) });
-    }
-
-
-    parser_ptr operator >> (const string_type& left, const string_type& right) {
-        return std::make_shared<sequence_parser>(parsers_type{ parser(left), parser(right) });
-    }
-
-
-    parser_ptr operator >> (const string_type& left, rule& right) {
-        return std::make_shared<sequence_parser>(parsers_type{ parser(left), parser(right) });
-    }
-
-
-    /* left: rule */
-
-
-    parser_ptr operator >> (rule& left, const parser_ptr& right) {
-        sequence_parser* r = dynamic_cast<sequence_parser*>(right.get());
-        if (r) {
-            return std::make_shared<sequence_parser>(parser(left) + r->parsers());
-        }
-        return std::make_shared<sequence_parser>(parsers_type{ parser(left), right });
-    }
-
-
-    parser_ptr operator >> (rule& left, symbol_type right) {
-        return std::make_shared<sequence_parser>(parsers_type{ parser(left), parser(right) });
-    }
-
-
-    parser_ptr operator >> (rule& left, const string_type& right) {
-        return std::make_shared<sequence_parser>(parsers_type{ parser(left), parser(right) });
-    }
-
-
-    parser_ptr operator >> (rule& left, rule& right) {
-        return std::make_shared<sequence_parser>(parsers_type{ parser(left), parser(right) });
-    }
-
-
     parser_ptr operator - (const parser_ptr& left, const parser_ptr& right) {
-        return !right >> left;
-    }
-
-
-    parser_ptr operator - (const parser_ptr& left, rule& right) {
-        return !right >> left;
-    }
-
-
-    parser_ptr operator - (rule& left, const parser_ptr& right) {
-        return !right >> left;
-    }
-
-
-    parser_ptr operator - (rule& left, rule& right) {
         return !right >> left;
     }
 

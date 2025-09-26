@@ -125,7 +125,7 @@ namespace xparserlib::ebnf {
         ;
 
 
-    static rule symbol_char = set("()[]{}?*+-,|:=;._\'\"<!^");
+    static rule symbol_char = set("()[]{}?*+-,|:=;._\'\"<!^/");
     static rule valid_characters = letter | digit | symbol_char;
 
 

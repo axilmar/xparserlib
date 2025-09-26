@@ -57,15 +57,22 @@ namespace xparserlib {
             matches_type matches;
 
             /**
+             * The errors created during the parsing process.
+             */
+            errors_type errors;
+
+            /**
              * The matches over the source input, identified during the parsing process.
              * Match iterators point to the source, rather than to the the parser input.
              */
             matches_type source_matches;
 
             /**
-             * The errors created during the parsing process.
+             * The errors over the source input.
+             * Just like source matches, the source errors point to the source, 
+             * rather than to the parser input.
              */
-            errors_type errors;
+            errors_type source_errors;
         } parsing;
 
         /**

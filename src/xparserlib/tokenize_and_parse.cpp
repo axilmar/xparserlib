@@ -23,6 +23,21 @@ namespace xparserlib {
                 get_source_match(tokenizer_matches, parser_input_begin, parser_match, source_match);
             }
         }
+
+        static void get_source_error(const matches_type& tokenizer_matches, const iterator_type& parser_input_begin, const class error& error, class error& source_error) {
+            source_error.m_type = error.m_type;
+            source_error.m_position = tokenizer_matches[error.m_position - parser_input_begin].m_begin;
+
+        }
+
+        static void get_source_errors(const matches_type& tokenizer_matches, const iterator_type& parser_input_begin, const errors_type& errors, errors_type& source_errors) {
+            source_errors.resize(errors.size());
+            for (size_t index = 0; index < errors.size(); ++index) {
+                const class error& error = errors[index];
+                class error& source_error = source_errors[index];
+                get_source_error(tokenizer_matches, parser_input_begin, error, source_error);
+            }
+        }
     };
 
 
@@ -41,8 +56,9 @@ namespace xparserlib {
         parse_context parser_parse_context(result.parsing.input);
         result.parsing.success = parser_grammar.parse(parser_parse_context) && parser_parse_context.ended();
         result.parsing.matches = parser_parse_context.matches();
-        tapm::get_source_matches(result.tokenization.matches, result.parsing.input.begin(), result.parsing.matches, result.parsing.source_matches);
         result.parsing.errors = parser_parse_context.errors();
+        tapm::get_source_matches(result.tokenization.matches, result.parsing.input.begin(), result.parsing.matches, result.parsing.source_matches);
+        tapm::get_source_errors(result.tokenization.matches, result.parsing.input.begin(), result.parsing.errors, result.parsing.source_errors);
 
         //complete the result
         result.success = result.tokenization.success && result.parsing.success;

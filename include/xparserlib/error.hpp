@@ -14,6 +14,9 @@ namespace xparserlib {
     using error_type = int;
 
 
+    class tapm;
+
+
     /**
      * A error.
      */
@@ -46,6 +49,8 @@ namespace xparserlib {
     private:
         error_type m_type;
         iterator_type m_position;
+
+        friend class tapm;
     };
 
 

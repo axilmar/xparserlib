@@ -269,13 +269,8 @@ namespace xparserlib {
     }
 
 
-    parser_ptr make_rule_parser(class rule& rule) {
-        return std::make_shared<rule_reference>(rule.addr());
-    }
-
-
     parser_ptr parser(class rule& rule) {
-        return make_rule_parser(rule);
+        return std::make_shared<rule_reference>(rule.addr());
     }
 
 

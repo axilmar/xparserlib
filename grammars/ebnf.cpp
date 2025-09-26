@@ -13,13 +13,12 @@ namespace xparserlib::ebnf {
     /**** tokenizer ****/
 
 
-    static rule ws_char =
-        range('\0', 32)
-        ;
+    static rule space = ' ';
+    static rule whitespace = range('\0', 32) ;
 
 
     static rule comment
-        = "(*" >> (any() - "(*") >> "*)"
+        = "(*" >> *(any() - "*)") >> "*)"
         ;
 
 
@@ -60,7 +59,7 @@ namespace xparserlib::ebnf {
 
 
     static rule assignment_operator
-        = (parser("::=") | ":=" | ':' | ' = ')->*TOKEN_ASSIGNMENT_OPERATOR
+        = (parser("::=") | ":=" | ':' | '=')->*TOKEN_ASSIGNMENT_OPERATOR
         ;
 
 
@@ -125,12 +124,8 @@ namespace xparserlib::ebnf {
         ;
 
 
-    static rule symbol_char = set("()[]{}?*+-,|:=;._\'\"<!^/");
-    static rule valid_characters = letter | digit | symbol_char;
-
-
     rule tokenizer_grammar
-        = *(token | comment | ws_char | error(ERROR_INVALID_CHARACTERS) | skip(any()))
+        = *(space | comment | token | whitespace | error(ERROR_INVALID_CHARACTERS) | skip(any()))
         ;
 
 
@@ -140,31 +135,53 @@ namespace xparserlib::ebnf {
     extern rule alternation;
 
 
-    static rule ast_identifier
+    static rule identifier_term
         = parser(TOKEN_IDENTIFIER)->*AST_IDENTIFIER;
 
 
-    static rule ast_char_terminal
+    static rule range_char
         = parser(TOKEN_CHAR_TERMINAL)->*AST_CHAR_TERMINAL
         ;
 
 
-    static rule ast_range_terminal
-        = (ast_char_terminal >> TOKEN_RANGE_OPERATOR >> ast_char_terminal)->*AST_RANGE_TERMINAL
+    static rule range_term
+        = (range_char >> TOKEN_RANGE_OPERATOR >> range_char)->*AST_RANGE_TERMINAL
         ;
 
-    static rule term
+    static rule group_term
         = TOKEN_GROUP_START >> alternation >> TOKEN_GROUP_END
-        | (TOKEN_OPTIONAL_START >> alternation >> TOKEN_OPTIONAL_END)->*AST_OPTIONAL
-        | (TOKEN_REPETITION_START >> alternation >> TOKEN_REPETITION_END)->*AST_LOOP_0
-        | ast_identifier
-        | ast_range_terminal
-        | parser(TOKEN_CHAR_TERMINAL)->*AST_TERMINAL
-        | parser(TOKEN_TERMINAL)->*AST_TERMINAL
-        | parser(TOKEN_REGEX_TERMINAL)->*AST_REGEX_TERMINAL
-        | &parser(TOKEN_TERMINATOR) //means rule ended
-        | error(ERROR_EXPECTED_TERMINAL_OR_OPERATOR)
-        | skip(any())
+        ;
+
+    static rule optional_term
+        = (TOKEN_OPTIONAL_START >> alternation >> TOKEN_OPTIONAL_END)->*AST_OPTIONAL
+        ;
+
+    static rule loop_0_term
+        = (TOKEN_REPETITION_START >> alternation >> TOKEN_REPETITION_END)->*AST_LOOP_0
+        ;
+
+    static rule char_term
+        = parser(TOKEN_CHAR_TERMINAL)->*AST_TERMINAL
+        ;
+
+    static rule string_term
+        = parser(TOKEN_TERMINAL)->*AST_TERMINAL
+        ;
+
+    static rule regex_term
+        = parser(TOKEN_REGEX_TERMINAL)->*AST_REGEX_TERMINAL
+        ;
+
+
+    static rule term
+        = group_term
+        | optional_term
+        | loop_0_term
+        | identifier_term
+        | range_term
+        | char_term
+        | string_term
+        | regex_term
         ;
 
 
@@ -177,20 +194,39 @@ namespace xparserlib::ebnf {
         ;
 
 
+    static rule factor_or_rule_terminator
+        = factor
+        | &parser(TOKEN_TERMINATOR)
+        ;
+
+
+    static rule first_concatenation
+        = factor >> -parser(TOKEN_CONCATENATION_OPERATOR) >> factor
+        ;
+
+
+    static rule next_concatenation
+        = parser(TOKEN_CONCATENATION_OPERATOR) >> factor
+        | factor_or_rule_terminator
+        ;
+
+
     static rule concatenation
-        = (concatenation >> -parser(TOKEN_CONCATENATION_OPERATOR) >> factor)->*AST_CONCATENATION
+        = (first_concatenation >> *next_concatenation)->*AST_CONCATENATION
         | factor
+        | error(ERROR_EXPECTED_TERMINAL_OR_OPERATOR)
+        | skip(any())
         ;
 
 
     static rule alternation
-        = (alternation >> TOKEN_ALTERNATION_OPERATOR >> concatenation)->*AST_ALTERNATION
+        = (concatenation >> +(TOKEN_ALTERNATION_OPERATOR >> concatenation))->*AST_ALTERNATION
         | concatenation
         ;
 
 
     static rule production_rule_name
-        = ast_identifier
+        = identifier_term
         | error(ERROR_EXPECTED_IDENTIFIER)
         | skip(any())
         ;
@@ -204,7 +240,7 @@ namespace xparserlib::ebnf {
 
 
     static rule production_rule_terminator
-        = TOKEN_TERMINATOR
+        = +parser(TOKEN_TERMINATOR)
         | error(ERROR_EXPECTED_TERMINATOR)
         | skip(any())
         ;

@@ -54,27 +54,27 @@ namespace xparserlib {
     }
 
 
-    parser_ptr parser_ptr::operator *() {
+    parser_ptr parser_ptr::operator *() const {
         return make_loop_zero_parser(*this);
     }
 
 
-    parser_ptr parser_ptr::operator +() {
+    parser_ptr parser_ptr::operator +() const {
         return make_loop_one_parser(*this);
     }
 
 
-    parser_ptr parser_ptr::operator -() {
+    parser_ptr parser_ptr::operator -() const {
         return make_optional_parser(*this);
     }
 
 
-    parser_ptr parser_ptr::operator &() {
+    parser_ptr parser_ptr::operator &() const {
         return make_logical_and_parser(*this);
     }
 
 
-    parser_ptr parser_ptr::operator !() {
+    parser_ptr parser_ptr::operator !() const {
         return make_logical_not_parser(*this);
     }
 

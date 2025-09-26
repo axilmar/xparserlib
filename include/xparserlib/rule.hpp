@@ -113,13 +113,6 @@ namespace xparserlib {
      * Creates a parser for a rule.
      * @param rule rule to create a parser from.
      */
-    parser_ptr make_rule_parser(class rule& rule);
-   
-    
-    /**
-     * Creates a parser for a rule.
-     * @param rule rule to create a parser from.
-     */
     parser_ptr parser(class rule& rule);
 
 

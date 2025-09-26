@@ -67,31 +67,31 @@ namespace xparserlib {
          * Creates a zero or more times loop out of this parser.
          * @return a zero or more times loop out of this parser.
          */
-        parser_ptr operator *();
+        parser_ptr operator *() const;
 
         /**
          * Creates a one or more times loop out of this parser.
          * @return a one or more times loop out of this parser.
          */
-        parser_ptr operator +();
+        parser_ptr operator +() const;
 
         /**
          * Makes this parser optional.
          * @return an optional parser for this parser.
          */
-        parser_ptr operator -();
+        parser_ptr operator -() const;
 
         /**
          * Creates a logical and parser from this parser.
          * @return a logical and parser from this parser.
          */
-        parser_ptr operator &();
+        parser_ptr operator &() const;
 
         /**
          * Creates a logical not parser from this parser.
          * @return a logical not parser from this parser.
          */
-        parser_ptr operator !();
+        parser_ptr operator !() const;
     };
 
 

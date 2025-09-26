@@ -24,22 +24,21 @@ namespace xparserlib {
 
     
     string_type::string_type(const std::string& string) 
-        : std::vector<symbol_type>(string.begin(), string.end())
+        : std::basic_string<symbol_type>(string.begin(), string.end())
     {
     }
 
 
     string_type::string_type(const std::wstring& string)
-        : std::vector<symbol_type>(string.begin(), string.end())
+        : std::basic_string<symbol_type>(string.begin(), string.end())
     {
     }
 
 
-    string_type::string_type(const matches_type& tokens)
-        : std::vector<symbol_type>(tokens.size())
-    {
+    string_type::string_type(const matches_type& tokens) {
+        std::basic_string<symbol_type>::resize(tokens.size());
         for (size_t index = 0; index < tokens.size(); ++index) {
-            std::vector<symbol_type>::operator[](index) = tokens[index].type();
+            std::basic_string<symbol_type>::operator[](index) = tokens[index].type();
         }
     }
 

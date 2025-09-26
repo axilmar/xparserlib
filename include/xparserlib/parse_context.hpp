@@ -26,9 +26,14 @@ namespace xparserlib {
          * of parsing to a particular point.
          */
         class state {
+        public:
+            const iterator_type& position() const {
+                return m_position;
+            }
+
         private:
-            const iterator_type position;
-            const size_t match_count;
+            const iterator_type m_position;
+            const size_t m_match_count;
             state(const iterator_type& p, size_t mc);
             friend class parse_context;
         };

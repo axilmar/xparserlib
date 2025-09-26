@@ -6,8 +6,8 @@ namespace xparserlib {
 
 
     parse_context::state::state(const iterator_type& p, size_t mc)
-        : position(p)
-        , match_count(mc)
+        : m_position(p)
+        , m_match_count(mc)
     {
     }
 
@@ -22,7 +22,7 @@ namespace xparserlib {
         : m_position(begin)
         , m_end(end)
     {
-        assert(begin < end);
+        assert(begin <= end);
     }
 
 
@@ -86,8 +86,8 @@ namespace xparserlib {
 
 
     void parse_context::set_state(const class state& state) {
-        m_position = state.position;
-        m_matches.resize(state.match_count);
+        m_position = state.m_position;
+        m_matches.resize(state.m_match_count);
     }
 
 

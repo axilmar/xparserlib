@@ -647,6 +647,36 @@ static void test_repeat_times_parser() {
 }
 
 
+static void test_regex_grammar_parser() {
+    {
+        parser_ptr grammar = regex_grammar();
+        string_type input = "[a-zA-Z]+ aaa";
+        parse_context pc(input);
+        const bool result = grammar->parse(pc);
+        assert(result);
+        assert(pc.position() == input.begin() + 9);
+    }
+
+    {
+        parser_ptr grammar = regex_grammar();
+        string_type input = "[a-zA-Z]+";
+        parse_context pc(input);
+        const bool result = grammar->parse(pc);
+        assert(result);
+        assert(pc.position() == input.end());
+    }
+
+    {
+        parser_ptr grammar = regex_grammar();
+        string_type input = "[a-zA-Z}+";
+        parse_context pc(input);
+        const bool result = grammar->parse(pc);
+        assert(!result);
+        assert(pc.position() == input.begin());
+    }
+}
+
+
 void run_tests() {
     test_symbol_parser();
     test_string_parser();
@@ -664,4 +694,5 @@ void run_tests() {
     test_tokenize_and_parse();
     test_any();
     test_repeat_times_parser();
+    test_regex_grammar_parser();
 }

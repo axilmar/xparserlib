@@ -29,9 +29,9 @@ namespace xparserlib {
     /**
      * Strings to parse are vectors of symbols, for efficiency.
      */
-    class string_type : public std::vector<symbol_type> {
+    class string_type : public std::basic_string<symbol_type> {
     public:
-        using std::vector<symbol_type>::vector;
+        using std::basic_string<symbol_type>::basic_string;
 
         /**
          * Constructor from null-terminated string.

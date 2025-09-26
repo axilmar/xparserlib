@@ -95,8 +95,9 @@ namespace xparserlib {
         const errors_type& errors() const;
 
         /**
-         * Increments the current position by 1.
+         * Increments the current position by one.
          * Overflow checks are only done at compile-time.
+         * @param count number of positions to increment the current position.
          */
         void increment_position();
 
@@ -126,10 +127,14 @@ namespace xparserlib {
         /**
          * Adds an error.
          * Overflow and range checks are only done at compile-time.
+         * If the new error is adjustent to the previous one,
+         * and it has the same type as the previous one, 
+         * then no error is added, but the last error has its range extended.
          * @param type type of error.
-         * @param position position of the error into the source.
+         * @param begin begin position of the error into the source.
+         * @param end end position of the error into the source.
          */
-        void add_error(error_type type, const iterator_type& position);
+        void add_error(error_type type, const iterator_type& begin, const iterator_type& end);
 
     private:
         //current position

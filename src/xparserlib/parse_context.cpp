@@ -91,9 +91,16 @@ namespace xparserlib {
     }
 
 
-    void parse_context::add_error(error_type type, const iterator_type& position) {
-        assert(position < m_end);
-        m_errors.push_back({ type, position });
+    void parse_context::add_error(error_type type, const iterator_type& begin, const iterator_type& end) {
+        assert(begin < end);
+        assert(begin < m_end);
+        assert(end <= m_end);
+        if (m_errors.empty() || m_errors.back().type() != type || m_errors.back().end() != begin) {
+            m_errors.push_back({ type, begin, end });
+        }
+        else {
+            m_errors.back().m_end = end;
+        }
     }
 
 

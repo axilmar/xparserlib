@@ -12,7 +12,7 @@ namespace xparserlib {
 
     bool error_parser::parse(parse_context& pc) const {
         if (pc.valid()) {
-            pc.add_error(m_type, pc.position());
+            pc.add_error(m_type, pc.position(), pc.position() + 1);
         }
         return false;
     }

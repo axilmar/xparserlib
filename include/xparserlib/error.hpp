@@ -15,6 +15,7 @@ namespace xparserlib {
 
 
     class tapm;
+    class parse_context;
 
 
     /**
@@ -30,9 +31,10 @@ namespace xparserlib {
         /**
          * The constructor.
          * @param type type of error.
-         * @param position the error position.
+         * @param begin the error begin position.
+         * @param end the error end position.
          */
-        error(error_type type, const iterator_type& position);
+        error(error_type type, const iterator_type& begin, const iterator_type& end);
 
         /**
          * Returns the type of error.
@@ -41,16 +43,24 @@ namespace xparserlib {
         error_type type() const;
 
         /**
-         * Returns the error position in the source string.
-         * @return the error position in the source string.
+         * Returns the error begin position in the source string.
+         * @return the error begin position in the source string.
          */
-        const iterator_type& position() const;
+        const iterator_type& begin() const;
+
+        /**
+         * Returns the error end position in the source string.
+         * @return the error end position in the source string.
+         */
+        const iterator_type& end() const;
 
     private:
         error_type m_type;
-        iterator_type m_position;
+        iterator_type m_begin;
+        iterator_type m_end;
 
         friend class tapm;
+        friend class parse_context;
     };
 
 

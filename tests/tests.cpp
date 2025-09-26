@@ -464,9 +464,11 @@ static void test_error() {
         assert(pc.position() == input.end());
         assert(pc.errors().size() == 2);
         assert(pc.errors()[0].type() == 1);
-        assert(pc.errors()[0].position() == input.begin() + 4);
+        assert(pc.errors()[0].begin() == input.begin() + 4);
+        assert(pc.errors()[0].end() == input.begin() + 5);
         assert(pc.errors()[1].type() == 1);
-        assert(pc.errors()[1].position() == input.begin() + 8);
+        assert(pc.errors()[1].begin() == input.begin() + 8);
+        assert(pc.errors()[1].end() == input.begin() + 9);
     }
 }
 

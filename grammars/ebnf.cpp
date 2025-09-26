@@ -130,7 +130,7 @@ namespace xparserlib::ebnf {
 
 
     rule tokenizer_grammar 
-        = *(ws_char | comment | token | error(ERROR_INVALID_CHARACTER) | skip(valid_characters))
+        = *(ws_char | comment | token | error(ERROR_INVALID_CHARACTERS) | skip(any()))
         ;
 
 

@@ -26,8 +26,8 @@ namespace xparserlib {
 
         static void get_source_error(const matches_type& tokenizer_matches, const iterator_type& parser_input_begin, const class error& error, class error& source_error) {
             source_error.m_type = error.m_type;
-            source_error.m_position = tokenizer_matches[error.m_position - parser_input_begin].m_begin;
-
+            source_error.m_begin = tokenizer_matches[error.m_begin - parser_input_begin].m_begin;
+            source_error.m_end = tokenizer_matches[error.m_end - 1 - parser_input_begin].m_end;
         }
 
         static void get_source_errors(const matches_type& tokenizer_matches, const iterator_type& parser_input_begin, const errors_type& errors, errors_type& source_errors) {
@@ -47,14 +47,14 @@ namespace xparserlib {
 
         //tokenize
         parse_context tokenizer_parse_context(input);
-        result.tokenization.success = tokenizer_grammar.parse(tokenizer_parse_context) && tokenizer_parse_context.ended();
+        result.tokenization.success = tokenizer_grammar.parse(tokenizer_parse_context) && tokenizer_parse_context.ended() && tokenizer_parse_context.errors().empty();
         result.tokenization.matches = tokenizer_parse_context.matches();
         result.tokenization.errors = tokenizer_parse_context.errors();
 
         //parse
         result.parsing.input = result.tokenization.matches;
         parse_context parser_parse_context(result.parsing.input);
-        result.parsing.success = parser_grammar.parse(parser_parse_context) && parser_parse_context.ended();
+        result.parsing.success = parser_grammar.parse(parser_parse_context) && parser_parse_context.ended() && parser_parse_context.errors().empty();
         result.parsing.matches = parser_parse_context.matches();
         result.parsing.errors = parser_parse_context.errors();
         tapm::get_source_matches(result.tokenization.matches, result.parsing.input.begin(), result.parsing.matches, result.parsing.source_matches);

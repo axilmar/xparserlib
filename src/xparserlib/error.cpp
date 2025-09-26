@@ -4,9 +4,10 @@
 namespace xparserlib {
 
 
-    error::error(error_type type, const iterator_type& position)
+    error::error(error_type type, const iterator_type& begin, const iterator_type& end)
         : m_type(type)
-        , m_position(position)
+        , m_begin(begin)
+        , m_end(end)
     {
     }
 
@@ -16,8 +17,13 @@ namespace xparserlib {
     }
 
 
-    const iterator_type& error::position() const {
-        return m_position;
+    const iterator_type& error::begin() const {
+        return m_begin;
+    }
+
+
+    const iterator_type& error::end() const {
+        return m_end;
     }
 
 

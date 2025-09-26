@@ -9,7 +9,7 @@ namespace xparserlib::ebnf {
 
 
     enum ERROR_TYPE {
-        ERROR_INVALID_CHARACTER
+        ERROR_INVALID_CHARACTERS
     };
 
 

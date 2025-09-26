@@ -453,27 +453,6 @@ static void test_left_recursion() {
 }
 
 
-static void test_error() {
-    {
-        rule stm = parser("a;") | "b;" | "c;" | error(1);
-        parser_ptr grammar = *(stm | skip(';'));
-        string_type input = "a;b;d;c;f;a;";
-        parse_context pc(input);
-        const bool result = grammar->parse(pc);
-        const auto errors = pc.errors();
-        assert(result);
-        assert(pc.position() == input.end());
-        assert(errors.size() == 2);
-        assert(errors[0].type() == 1);
-        assert(errors[0].begin() == input.begin() + 4);
-        assert(errors[0].end() == input.begin() + 5);
-        assert(errors[1].type() == 1);
-        assert(errors[1].begin() == input.begin() + 8);
-        assert(errors[1].end() == input.begin() + 9);
-    }
-}
-
-
 static void test_tokenize_and_parse() {
     enum TOKEN_ID {
         TOKEN_NUM,
@@ -693,7 +672,6 @@ void run_tests() {
     test_rule();
     test_match();
     test_left_recursion();
-    test_error();
     test_tokenize_and_parse();
     test_any();
     test_repeat_times_parser();

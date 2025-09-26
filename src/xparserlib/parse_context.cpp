@@ -56,17 +56,6 @@ namespace xparserlib {
     }
 
 
-    errors_type parse_context::errors() const {
-        errors_type errors(m_errors.size());
-        size_t index = 0;
-        for (const auto& p : m_errors) {
-            errors[index] = p.second;
-            ++index;
-        }
-        return errors;
-    }
-
-
     void parse_context::increment_position() {
         ++m_position;
         assert(m_position <= m_end);
@@ -94,33 +83,6 @@ namespace xparserlib {
     void parse_context::set_state(const class state& state) {
         m_position = state.m_position;
         m_matches.resize(state.m_match_count);
-    }
-
-
-    void parse_context::add_error(error_type type, const iterator_type& begin, const iterator_type& end) {
-        assert(begin < end);
-        assert(begin < m_end);
-        assert(end <= m_end);
-        const class error error(type, begin, end);
-        const auto [it, ok] = m_errors.insert(std::make_pair(begin, error));
-        if (!ok) {
-            class error& last_error = it->second;
-
-            //same error type
-            if (last_error.m_type == type) {
-                if (end > last_error.m_end) {
-                    last_error.m_end = end;
-                }
-            }
-
-            //else other error type
-            else {
-                if (end >= last_error.m_end) {
-                    last_error.m_type = type;
-                    last_error.m_end = end;
-                }
-            }
-        }
     }
 
 

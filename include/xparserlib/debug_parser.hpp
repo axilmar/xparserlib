@@ -16,7 +16,8 @@ namespace xparserlib {
         }
 
         bool parse(parse_context& pc) const override {
-            return m_parser->parse(pc);
+            const bool result = m_parser->parse(pc);
+            return result;
         }
 
     private:

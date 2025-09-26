@@ -4,7 +4,6 @@
 
 #include <utility>
 #include "match.hpp"
-#include "error.hpp"
 #include "rule.hpp"
 
 
@@ -20,7 +19,7 @@ namespace xparserlib {
          */
         struct tokenization {
             /**
-             * True if tokenization failed, false if there were one or more errors.
+             * True if tokenization succeeded, false if failed.
              */
             bool success;
 
@@ -29,11 +28,6 @@ namespace xparserlib {
              * Match iterators point to the source.
              */
             matches_type matches;
-
-            /**
-             * The errors created during the tokenization process.
-             */
-            errors_type errors;
 
             /**
              * Position the tokenizer stopped at.
@@ -50,7 +44,7 @@ namespace xparserlib {
             string_type input;
 
             /**
-             * True if parsing failed, false if there were one or more errors.
+             * True if parsing succeeded, false if failed.
              */
             bool success;
 
@@ -60,11 +54,6 @@ namespace xparserlib {
              * Match iterators point to the parser input.
              */
             matches_type matches;
-
-            /**
-             * The errors created during the parsing process.
-             */
-            errors_type errors;
 
             /**
              * Position the parser stopped at.
@@ -78,20 +67,13 @@ namespace xparserlib {
             matches_type source_matches;
 
             /**
-             * The errors over the source input.
-             * Just like source matches, the source errors point to the source, 
-             * rather than to the parser input.
-             */
-            errors_type source_errors;
-
-            /**
              * Source position the parser stopped at.
              */
             iterator_type source_position;
         } parsing;
 
         /**
-         * True if tokenization and parsing failed, false if there were one or more errors.
+         * True if tokenization and parsing succeeded, false otherwise.
          */
         bool success;
     };

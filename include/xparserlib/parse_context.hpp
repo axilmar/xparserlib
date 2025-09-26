@@ -2,9 +2,7 @@
 #define XPARSERLIB_PARSE_CONTEXT_HPP
 
 
-#include <map>
 #include "match.hpp"
-#include "error.hpp"
 
 
 namespace xparserlib {
@@ -90,12 +88,6 @@ namespace xparserlib {
         class state state() const;
 
         /**
-         * Returns the current errors.
-         * @return the current errors.
-         */
-        errors_type errors() const;
-
-        /**
          * Increments the current position by one.
          * Overflow checks are only done at compile-time.
          * @param count number of positions to increment the current position.
@@ -125,18 +117,6 @@ namespace xparserlib {
          */
         void set_state(const class state& state);
 
-        /**
-         * Adds an error.
-         * Overflow and range checks are only done at compile-time.
-         * If the new error is adjustent to the previous one,
-         * and it has the same type as the previous one, 
-         * then no error is added, but the last error has its range extended.
-         * @param type type of error.
-         * @param begin begin position of the error into the source.
-         * @param end end position of the error into the source.
-         */
-        void add_error(error_type type, const iterator_type& begin, const iterator_type& end);
-
     private:
         //current position
         iterator_type m_position;
@@ -155,9 +135,6 @@ namespace xparserlib {
 
         //left-recursion state stack
         std::vector<left_recursion_state> m_lrs;
-
-        //errors
-        std::map<iterator_type, error> m_errors;
 
         friend class lrm;
     };

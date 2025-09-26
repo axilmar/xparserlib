@@ -649,7 +649,7 @@ static void test_repeat_times_parser() {
 
 static void test_regex_grammar_parser() {
     {
-        parser_ptr grammar = regex_grammar();
+        parser_ptr grammar = regex_grammar(' ');
         string_type input = "[a-zA-Z]+ aaa";
         parse_context pc(input);
         const bool result = grammar->parse(pc);
@@ -658,7 +658,7 @@ static void test_regex_grammar_parser() {
     }
 
     {
-        parser_ptr grammar = regex_grammar();
+        parser_ptr grammar = regex_grammar(end());
         string_type input = "[a-zA-Z]+";
         parse_context pc(input);
         const bool result = grammar->parse(pc);
@@ -667,7 +667,7 @@ static void test_regex_grammar_parser() {
     }
 
     {
-        parser_ptr grammar = regex_grammar();
+        parser_ptr grammar = regex_grammar(end());
         string_type input = "[a-zA-Z}+";
         parse_context pc(input);
         const bool result = grammar->parse(pc);

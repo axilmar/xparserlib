@@ -25,10 +25,10 @@ namespace xparserlib {
     public:
         /**
          * The constructor.
-         * @param flags the regular expression constructor flags.
          * @param delimiter_parser the parser to use for recognizing the boundaries of the regular expression.
+         * @param flags the regular expression constructor flags.
          */
-        regex_grammar_parser(std::regex::flag_type flags = std::regex_constants::ECMAScript, const parser_ptr& delimiter_parser = range('\0', 32));
+        regex_grammar_parser(const parser_ptr& delimiter_parser, std::regex::flag_type flags = std::regex_constants::ECMAScript);
 
         /**
          * Parses the input.
@@ -43,18 +43,18 @@ namespace xparserlib {
         bool parse(parse_context& pc) const override;
 
     private:
-        std::regex::flag_type m_flags;
         parser_ptr m_delimiter_parser;
+        std::regex::flag_type m_flags;
     };
 
 
     /**
      * Creates a regex grammar parser.
-     * @param flags the regular expression constructor flags.
      * @param delimiter_parser the parser to use for recognizing the boundaries of the regular expression.
+     * @param flags the regular expression constructor flags.
      * @return a regex grammar parser.
      */
-    parser_ptr regex_grammar(std::regex::flag_type flags = std::regex_constants::ECMAScript, const parser_ptr& delimiter_parser = range('\0', 32));
+    parser_ptr regex_grammar(const parser_ptr& delimiter_parser, std::regex::flag_type flags = std::regex_constants::ECMAScript);
 
 
     /**
@@ -73,10 +73,10 @@ namespace xparserlib {
     public:
         /**
          * The constructor.
-         * @param flags the regular expression constructor flags.
          * @param delimiter_parser the parser to use for recognizing the boundaries of the regular expression.
+         * @param flags the regular expression constructor flags.
          */
-        wregex_grammar_parser(std::wregex::flag_type flags = std::regex_constants::ECMAScript, const parser_ptr& delimiter_parser = range('\0', 32));
+        wregex_grammar_parser(const parser_ptr& delimiter_parser, std::wregex::flag_type flags = std::regex_constants::ECMAScript);
 
         /**
          * Parses the input.
@@ -98,11 +98,11 @@ namespace xparserlib {
 
     /**
      * Creates a wregex grammar parser.
-     * @param flags the regular expression constructor flags.
      * @param delimiter_parser the parser to use for recognizing the boundaries of the regular expression.
+     * @param flags the regular expression constructor flags.
      * @return a wregex grammar parser.
      */
-    parser_ptr wregex_grammar(std::wregex::flag_type flags = std::regex_constants::ECMAScript, const parser_ptr& delimiter_parser = range('\0', 32));
+    parser_ptr wregex_grammar(const parser_ptr& delimiter_parser, std::wregex::flag_type flags = std::regex_constants::ECMAScript);
 
 
 } //namespace xparserlib

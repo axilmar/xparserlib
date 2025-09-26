@@ -45,9 +45,9 @@ namespace xparserlib {
     }
 
 
-    regex_grammar_parser::regex_grammar_parser(std::regex::flag_type flags, const parser_ptr& delimiter_parser)
-        : m_flags(flags)
-        , m_delimiter_parser(delimiter_parser)
+    regex_grammar_parser::regex_grammar_parser(const parser_ptr& delimiter_parser, std::regex::flag_type flags)
+        : m_delimiter_parser(delimiter_parser)
+        , m_flags(flags)
     {
     }
 
@@ -57,14 +57,14 @@ namespace xparserlib {
     }
 
 
-    parser_ptr regex_grammar(std::regex::flag_type flags, const parser_ptr& delimiter_parser) {
-        return std::make_shared<regex_grammar_parser>(flags, delimiter_parser);
+    parser_ptr regex_grammar(const parser_ptr& delimiter_parser, std::regex::flag_type flags) {
+        return std::make_shared<regex_grammar_parser>(delimiter_parser, flags);
     }
 
 
-    wregex_grammar_parser::wregex_grammar_parser(std::wregex::flag_type flags, const parser_ptr& delimiter_parser)
-        : m_flags(flags)
-        , m_delimiter_parser(delimiter_parser)
+    wregex_grammar_parser::wregex_grammar_parser(const parser_ptr& delimiter_parser, std::wregex::flag_type flags)
+        : m_delimiter_parser(delimiter_parser)
+        , m_flags(flags)
     {
     }
 
@@ -74,8 +74,8 @@ namespace xparserlib {
     }
 
 
-    parser_ptr wregex_grammar(std::wregex::flag_type flags, const parser_ptr& delimiter_parser) {
-        return std::make_shared<wregex_grammar_parser>(flags, delimiter_parser);
+    parser_ptr wregex_grammar(const parser_ptr& delimiter_parser, std::wregex::flag_type flags) {
+        return std::make_shared<wregex_grammar_parser>(delimiter_parser, flags);
     }
 
 

@@ -1,0 +1,64 @@
+#ifndef XPARSERLIB_EBNF_HPP
+#define XPARSERLIB_EBNF_HPP
+
+
+#include "xparserlib.hpp"
+
+
+namespace xparserlib::ebnf {
+
+
+    enum ERROR_TYPE {
+        ERROR_INVALID_CHARACTER
+    };
+
+
+    enum TOKEN_TYPE {
+        TOKEN_IDENTIFIER,
+        TOKEN_CHAR_TERMINAL,
+        TOKEN_TERMINAL,
+        TOKEN_REGEX_TERMINAL,
+        TOKEN_GROUP_START,
+        TOKEN_GROUP_END,
+        TOKEN_OPTIONAL_START,
+        TOKEN_OPTIONAL_END,
+        TOKEN_REPETITION_START,
+        TOKEN_REPETITION_END,
+        TOKEN_OPTIONAL_OPERATOR,
+        TOKEN_LOOP_0_OPERATOR,
+        TOKEN_LOOP_1_OPERATOR,
+        TOKEN_EXCLUSION_OPERATOR,
+        TOKEN_CONCATENATION_OPERATOR,
+        TOKEN_ALTERNATION_OPERATOR,
+        TOKEN_ASSIGNMENT_OPERATOR,
+        TOKEN_RANGE_OPERATOR,
+        TOKEN_TERMINATOR
+    };
+
+
+    extern rule tokenizer_grammar;
+
+
+    enum AST_TYPE {
+        AST_IDENTIFIER,
+        AST_TERMINAL,
+        AST_REGEX_TERMINAL,
+        AST_RANGE_TERMINAL,
+        AST_CHAR_TERMINAL,
+        AST_OPTIONAL,
+        AST_LOOP_0,
+        AST_LOOP_1,
+        AST_EXCLUSION,
+        AST_CONCATENATION,
+        AST_ALTERNATION,
+        AST_RULE
+    };
+
+
+    extern rule parser_grammar;
+
+
+} //namespace xparserlib::ebnf
+
+
+#endif //XPARSERLIB_EBNF_HPP

@@ -460,15 +460,16 @@ static void test_error() {
         string_type input = "a;b;d;c;f;a;";
         parse_context pc(input);
         const bool result = grammar->parse(pc);
+        const auto errors = pc.errors();
         assert(result);
         assert(pc.position() == input.end());
-        assert(pc.errors().size() == 2);
-        assert(pc.errors()[0].type() == 1);
-        assert(pc.errors()[0].begin() == input.begin() + 4);
-        assert(pc.errors()[0].end() == input.begin() + 5);
-        assert(pc.errors()[1].type() == 1);
-        assert(pc.errors()[1].begin() == input.begin() + 8);
-        assert(pc.errors()[1].end() == input.begin() + 9);
+        assert(errors.size() == 2);
+        assert(errors[0].type() == 1);
+        assert(errors[0].begin() == input.begin() + 4);
+        assert(errors[0].end() == input.begin() + 5);
+        assert(errors[1].type() == 1);
+        assert(errors[1].begin() == input.begin() + 8);
+        assert(errors[1].end() == input.begin() + 9);
     }
 }
 

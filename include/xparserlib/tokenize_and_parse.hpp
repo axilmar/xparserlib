@@ -34,6 +34,11 @@ namespace xparserlib {
              * The errors created during the tokenization process.
              */
             errors_type errors;
+
+            /**
+             * Position the tokenizer stopped at.
+             */
+            iterator_type position;
         } tokenization;
 
         struct parsing {
@@ -62,6 +67,11 @@ namespace xparserlib {
             errors_type errors;
 
             /**
+             * Position the parser stopped at.
+             */
+            iterator_type position;
+
+            /**
              * The matches over the source input, identified during the parsing process.
              * Match iterators point to the source, rather than to the the parser input.
              */
@@ -73,6 +83,11 @@ namespace xparserlib {
              * rather than to the parser input.
              */
             errors_type source_errors;
+
+            /**
+             * Source position the parser stopped at.
+             */
+            iterator_type source_position;
         } parsing;
 
         /**

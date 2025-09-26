@@ -2,6 +2,7 @@
 #define XPARSERLIB_PARSE_CONTEXT_HPP
 
 
+#include <map>
 #include "match.hpp"
 #include "error.hpp"
 
@@ -92,7 +93,7 @@ namespace xparserlib {
          * Returns the current errors.
          * @return the current errors.
          */
-        const errors_type& errors() const;
+        errors_type errors() const;
 
         /**
          * Increments the current position by one.
@@ -156,7 +157,7 @@ namespace xparserlib {
         std::vector<left_recursion_state> m_lrs;
 
         //errors
-        errors_type m_errors;
+        std::map<iterator_type, error> m_errors;
 
         friend class lrm;
     };

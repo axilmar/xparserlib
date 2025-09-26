@@ -1,32 +1,3 @@
-expr 
-    : add
-    ;
+expr : add
 
-add 
-    : add '+' mul
-    | add '-' mul
-    | mul
-    ;
-
-mul 
-    : mul '*' val
-    | mul '/' val
-    | val
-    ;
-
-@#
-
-val 
-    : number
-    | '(' expr ')'
-    ;
-
-number
-    : digit+ ['.' [digit+]]
-    | '.' digit+
-    ;
-
-digit 
-    : /[0-9]/
-    ;
 

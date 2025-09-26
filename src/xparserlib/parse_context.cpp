@@ -56,8 +56,14 @@ namespace xparserlib {
     }
 
 
-    const errors_type& parse_context::errors() const {
-        return m_errors;
+    errors_type parse_context::errors() const {
+        errors_type errors(m_errors.size());
+        size_t index = 0;
+        for (const auto& p : m_errors) {
+            errors[index] = p.second;
+            ++index;
+        }
+        return errors;
     }
 
 
@@ -95,11 +101,25 @@ namespace xparserlib {
         assert(begin < end);
         assert(begin < m_end);
         assert(end <= m_end);
-        if (m_errors.empty() || m_errors.back().type() != type || m_errors.back().end() != begin) {
-            m_errors.push_back({ type, begin, end });
-        }
-        else {
-            m_errors.back().m_end = end;
+        const class error error(type, begin, end);
+        const auto [it, ok] = m_errors.insert(std::make_pair(begin, error));
+        if (!ok) {
+            class error& last_error = it->second;
+
+            //same error type
+            if (last_error.m_type == type) {
+                if (end > last_error.m_end) {
+                    last_error.m_end = end;
+                }
+            }
+
+            //else other error type
+            else {
+                if (end >= last_error.m_end) {
+                    last_error.m_type = type;
+                    last_error.m_end = end;
+                }
+            }
         }
     }
 

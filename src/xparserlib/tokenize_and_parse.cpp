@@ -40,11 +40,11 @@ namespace xparserlib {
         result.parsing.input = result.tokenization.matches;
         parse_context parser_parse_context(result.parsing.input);
         result.parsing.success = parser_grammar.parse(parser_parse_context) && parser_parse_context.ended();
-        result.parsing.matches = parser_parse_context.matches();
-        result.parsing.position = parser_parse_context.position();
-        tapm::get_source_matches(result.tokenization.matches, result.parsing.input.begin(), result.parsing.matches, result.parsing.source_matches);
+        result.parsing.token_matches = parser_parse_context.matches();
+        result.parsing.token_position = parser_parse_context.position();
+        tapm::get_source_matches(result.tokenization.matches, result.parsing.input.begin(), result.parsing.token_matches, result.parsing.matches);
         const size_t index = parser_parse_context.position() - result.parsing.input.begin();
-        result.parsing.source_position = index < result.tokenization.matches.size() ? result.tokenization.matches[index].begin() : input.end();
+        result.parsing.position = index < result.tokenization.matches.size() ? result.tokenization.matches[index].begin() : input.end();
 
         //complete the result
         result.success = result.tokenization.success && result.parsing.success;

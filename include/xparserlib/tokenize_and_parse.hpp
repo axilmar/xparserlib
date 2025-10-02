@@ -25,7 +25,6 @@ namespace xparserlib {
 
             /**
              * The matches identified during the tokenization process.
-             * Match iterators point to the source.
              */
             matches_type matches;
 
@@ -49,27 +48,24 @@ namespace xparserlib {
             bool success;
 
             /**
-             * The matches over the parser input (i.e. the tokenizer matches converted to a string type), 
-             * identified during the parsing process.
-             * Match iterators point to the parser input.
+             * The matches over the tokenizer output, identified during the parsing process.
              */
-            matches_type matches;
+            matches_type token_matches;
 
             /**
              * Position the parser stopped at.
              */
-            iterator_type position;
+            iterator_type token_position;
 
             /**
              * The matches over the source input, identified during the parsing process.
-             * Match iterators point to the source, rather than to the the parser input.
              */
-            matches_type source_matches;
+            matches_type matches;
 
             /**
              * Source position the parser stopped at.
              */
-            iterator_type source_position;
+            iterator_type position;
         } parsing;
 
         /**

@@ -555,7 +555,7 @@ static void test_tokenize_and_parse() {
         const bool result = tokenize_and_parse(input, tokenizer_grammar, parser_grammar, tapr);\
         assert(result);\
         const double v = F;\
-        const double r = calculator::eval(tapr.parsing.source_matches);\
+        const double r = calculator::eval(tapr.parsing.matches);\
         if (v != r) {\
             std::cout << "Assertion failed: " << v << " == " << r << ", file " << __FILE__ << ", line " << __LINE__ << std::endl;\
         }\

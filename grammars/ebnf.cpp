@@ -17,11 +17,7 @@ namespace xparserlib::ebnf {
 
 
     static rule newline
-        = parser("\r\n")
-        | "\n\r"
-        | '\n'
-        | '\r'
-        ;
+        = xparserlib::newline(parser("\r\n") | "\n\r" | '\n' | '\r');
 
 
     static rule comment

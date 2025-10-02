@@ -14,9 +14,11 @@ namespace xparserlib {
 
     bool match_parser::parse(parse_context& pc) const {
         const iterator_type start_position = pc.position();
+        const size_t start_line = pc.line();
+        const size_t start_column = pc.column();
         const size_t first_child_index = pc.matches().size();
         if (m_parser->parse(pc)) {
-            pc.add_match(m_type, start_position, pc.position(), first_child_index);
+            pc.add_match(m_type, start_position, start_line, start_column, pc.position(), pc.line(), pc.column(), first_child_index);
             return true;
         }
         return false;

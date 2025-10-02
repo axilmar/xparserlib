@@ -16,6 +16,7 @@
 #include "xparserlib/repeat_times_parser.hpp"
 #include "xparserlib/regex_grammar_parser.hpp"
 #include "xparserlib/debug_parser.hpp"
+#include "xparserlib/newline_parser.hpp"
 #include "xparserlib/tokenize_and_parse.hpp"
 #include "xparserlib/util.hpp"
 

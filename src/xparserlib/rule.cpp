@@ -35,7 +35,7 @@ namespace xparserlib {
         }
 
         static void push_left_recursion_state(parse_context& pc) {
-            pc.m_lrs.push_back({ pc.m_position, pc.m_matches.size() });
+            pc.m_lrs.push_back({ pc.m_position, pc.m_matches.size(), pc.line(), pc.column() });
         }
 
         static void pop_left_recursion_state(parse_context& pc) {
@@ -72,7 +72,7 @@ namespace xparserlib {
 
         bool parse(parse_context& pc) const override {
             const auto lr_start_state = lrm::get_left_recursion_state(pc);
-            pc.add_match(m_type, lr_start_state.position, pc.position(), lr_start_state.match_count);
+            pc.add_match(m_type, lr_start_state.position, lr_start_state.line, lr_start_state.column, pc.position(), pc.line(), pc.column(), lr_start_state.match_count);
             return true;
         }
 

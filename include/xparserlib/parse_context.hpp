@@ -33,7 +33,9 @@ namespace xparserlib {
         private:
             const iterator_type m_position;
             const size_t m_match_count;
-            state(const iterator_type& p, size_t mc);
+            const size_t m_line;
+            const size_t m_column;
+            state(const iterator_type& p, size_t mc, size_t line, size_t column);
             friend class parse_context;
         };
 
@@ -106,10 +108,14 @@ namespace xparserlib {
          * Overflow and range checks are only done at compile-time.
          * @param type type of match.
          * @param begin start position of the match into the source.
+         * @param begin_line line index of start position.
+         * @param begin_column column index of start position.
          * @param end end position of the match into the source.
+         * @param end_line line index of end position.
+         * @param end_column column index of end position.
          * @param first_child_index index of first match child.
          */
-        void add_match(match_type type, const iterator_type& begin, const iterator_type& end, size_t first_child_index);
+        void add_match(match_type type, const iterator_type& begin, size_t begin_line, size_t begin_column, const iterator_type& end, size_t end_line, size_t end_column, size_t first_child_index);
 
         /**
          * Sets the current state from a previously recorded state.
@@ -117,9 +123,30 @@ namespace xparserlib {
          */
         void set_state(const class state& state);
 
+        /**
+         * Returns the current line.
+         * @return the current line.
+         */
+        size_t line() const;
+
+        /**
+         * Returns the current column.
+         * @return the current column.
+         */
+        size_t column() const;
+
+        /**
+         * Increments the current line and sets the column to value 1.
+         */
+        void increment_line();
+
     private:
         //current position
         iterator_type m_position;
+
+        //current column and line
+        size_t m_line;
+        size_t m_column;
 
         //current matches
         matches_type m_matches;
@@ -131,6 +158,8 @@ namespace xparserlib {
         struct left_recursion_state {
             iterator_type position;
             size_t match_count;
+            size_t line;
+            size_t column;
         };
 
         //left-recursion state stack

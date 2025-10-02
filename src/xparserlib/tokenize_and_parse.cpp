@@ -9,8 +9,18 @@ namespace xparserlib {
     public:
         static void get_source_match(const matches_type& tokenizer_matches, const iterator_type& parser_input_begin, const match& parser_match, match& source_match) {
             source_match.m_type = parser_match.m_type;
-            source_match.m_begin = tokenizer_matches[parser_match.m_begin - parser_input_begin].m_begin;
-            source_match.m_end = tokenizer_matches[parser_match.m_end - 1 - parser_input_begin].m_end;
+
+            const match& begin_match = tokenizer_matches[parser_match.m_begin - parser_input_begin];
+
+            source_match.m_begin = begin_match.m_begin;
+            source_match.m_begin_line = begin_match.m_begin_line;
+            source_match.m_begin_column = begin_match.m_begin_column;
+
+            const match& end_match = tokenizer_matches[parser_match.m_end - 1 - parser_input_begin];
+            source_match.m_end = end_match.m_end;
+            source_match.m_end_line = end_match.m_end_line;
+            source_match.m_end_column = end_match.m_end_column;
+
             get_source_matches(tokenizer_matches, parser_input_begin, parser_match.m_children, source_match.m_children);
 
         }

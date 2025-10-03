@@ -138,25 +138,31 @@ namespace xparserlib::ebnf {
         = (range_char >> TOKEN_RANGE_OPERATOR >> range_char)->*AST_RANGE_TERMINAL
         ;
 
+
     static rule group_term
         = TOKEN_GROUP_START >> alternation >> TOKEN_GROUP_END
         ;
+
 
     static rule optional_term
         = (TOKEN_OPTIONAL_START >> alternation >> TOKEN_OPTIONAL_END)->*AST_OPTIONAL
         ;
 
+
     static rule loop_0_term
         = (TOKEN_REPETITION_START >> alternation >> TOKEN_REPETITION_END)->*AST_LOOP_0
         ;
+
 
     static rule char_term
         = parser(TOKEN_CHAR_TERMINAL)->*AST_STRING_TERMINAL
         ;
 
+
     static rule string_term
         = parser(TOKEN_STRING_TERMINAL)->*AST_STRING_TERMINAL
         ;
+
 
     static rule regex_term
         = parser(TOKEN_REGEX_TERMINAL)->*AST_REGEX_TERMINAL

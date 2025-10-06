@@ -337,7 +337,8 @@ static void test_left_recursion() {
         ADD,
         SUB,
         MUL,
-        DIV
+        DIV,
+        NEG
     };
 
     rule add;
@@ -346,8 +347,11 @@ static void test_left_recursion() {
 
     rule num = (digit >> '.' >> digit)->*NUM;
 
-    rule val = num
-             | '(' >> add >> ')';
+    rule unsigned_val = num | '(' >> add >> ')';
+
+    rule val = '+' >> unsigned_val
+             | ('-' >> unsigned_val)->*NEG
+             | unsigned_val;
 
     rule mul = (mul >> '*' >> val) ->* MUL
              | (mul >> '/' >> val) ->* DIV
@@ -397,6 +401,12 @@ static void test_left_recursion() {
                     const double v = eval(m.children()[0]) / eval(m.children()[1]);
                     return v;
                 }
+
+                case NEG: {
+                    assert(m.children().size() == 1);
+                    const double v = -eval(m.children()[0]);
+                    return v;
+                }
             }
 
             throw std::runtime_error("invalid match type");
@@ -444,6 +454,10 @@ static void test_left_recursion() {
     CALC_TEST_1(1.0*(2.0+3.0));
     CALC_TEST_1((1.0/2.0)+3.0);
     CALC_TEST_1(1.0/(2.0+3.0));
+    CALC_TEST_1(-1.0);
+    CALC_TEST_1(-1.0+-2.0);
+    CALC_TEST_1(-1.0+-2.0+-3.0);
+    CALC_TEST_1(-1.0/-(2.0+3.0));
 }
 
 
@@ -460,7 +474,7 @@ static void test_tokenize_and_parse() {
 
     rule tokenizer_grammar = *(
         parser(' ') |
-        (+range('0', '9') >> -('.' >> +range('0', '9')))->*TOKEN_NUM |
+        (-(parser('+') | '-') >> +range('0', '9') >> -('.' >> +range('0', '9')))->*TOKEN_NUM |
         parser('+')->*TOKEN_ADD |
         parser('-')->*TOKEN_SUB |
         parser('*')->*TOKEN_MUL |
@@ -474,15 +488,20 @@ static void test_tokenize_and_parse() {
         AST_ADD,
         AST_SUB,
         AST_MUL,
-        AST_DIV
+        AST_DIV,
+        AST_NEG
     };
 
     rule parser_grammar;
 
     rule num = parser(TOKEN_NUM)->*AST_NUM;
 
-    rule val = num
-             | TOKEN_LEFT_PARENTHESIS >> parser_grammar >> TOKEN_RIGHT_PARENTHESIS;
+    rule unsigned_val = num
+        | TOKEN_LEFT_PARENTHESIS >> parser_grammar >> TOKEN_RIGHT_PARENTHESIS;
+
+    rule val = TOKEN_ADD >> unsigned_val
+             | (TOKEN_SUB >> unsigned_val)->*AST_NEG
+             | unsigned_val;
 
     rule mul = (mul >> TOKEN_MUL >> val)->*AST_MUL
              | (mul >> TOKEN_DIV >> val)->*AST_DIV
@@ -498,39 +517,45 @@ static void test_tokenize_and_parse() {
     public:
         static double eval(const match& m) {
             switch (m.type()) {
-            case AST_NUM: {
-                std::stringstream stream;
-                for (auto it = m.begin(); it != m.end(); ++it) {
-                    stream << (char)*it;
+                case AST_NUM: {
+                    std::stringstream stream;
+                    for (auto it = m.begin(); it != m.end(); ++it) {
+                        stream << (char)*it;
+                    }
+                    double v;
+                    stream >> v;
+                    return v;
                 }
-                double v;
-                stream >> v;
-                return v;
-            }
 
-            case AST_ADD: {
-                assert(m.children().size() == 2);
-                const double v = eval(m.children()[0]) + eval(m.children()[1]);
-                return v;
-            }
+                case AST_ADD: {
+                    assert(m.children().size() == 2);
+                    const double v = eval(m.children()[0]) + eval(m.children()[1]);
+                    return v;
+                }
 
-            case AST_SUB: {
-                assert(m.children().size() == 2);
-                const double v = eval(m.children()[0]) - eval(m.children()[1]);
-                return v;
-            }
+                case AST_SUB: {
+                    assert(m.children().size() == 2);
+                    const double v = eval(m.children()[0]) - eval(m.children()[1]);
+                    return v;
+                }
 
-            case AST_MUL: {
-                assert(m.children().size() == 2);
-                const double v = eval(m.children()[0]) * eval(m.children()[1]);
-                return v;
-            }
+                case AST_MUL: {
+                    assert(m.children().size() == 2);
+                    const double v = eval(m.children()[0]) * eval(m.children()[1]);
+                    return v;
+                }
 
-            case AST_DIV: {
-                assert(m.children().size() == 2);
-                const double v = eval(m.children()[0]) / eval(m.children()[1]);
-                return v;
-            }
+                case AST_DIV: {
+                    assert(m.children().size() == 2);
+                    const double v = eval(m.children()[0]) / eval(m.children()[1]);
+                    return v;
+                }
+
+                case AST_NEG: {
+                    assert(m.children().size() == 1);
+                    const double v = -eval(m.children()[0]);
+                    return v;
+                }
             }
 
             throw std::runtime_error("invalid match type");
@@ -578,6 +603,10 @@ static void test_tokenize_and_parse() {
     CALC_TEST_2(1.0 * (2.0 + 3.0));
     CALC_TEST_2((1.0 / 2.0) + 3.0);
     CALC_TEST_2(1.0 / (2.0 + 3.0));
+    CALC_TEST_2(-1.0);
+    CALC_TEST_2(- 1.0 + - 2.0);
+    CALC_TEST_2(-1.0 + - 2.0 + - 3.0);
+    CALC_TEST_2(-1.0 / - (2.0 + 3.0));
 }
 
 

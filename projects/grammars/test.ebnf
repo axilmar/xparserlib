@@ -15,6 +15,12 @@ mul
     ;
 
 val 
+    : '+' unsigned-val
+    | '-' unsigned-val
+    | unsigned-val
+    ;
+
+unsigned-val
     : number
     | '(' expr ')'
     ;

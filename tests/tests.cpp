@@ -354,17 +354,11 @@ static void test_left_recursion() {
              | mul >> '%' >> val
              | val;
 
-    add = (add >> '+' >> mul) ->* ADD
-        | (add >> '-' >> mul) ->* SUB
-        | mul;
-
-    /*
-    //used for debugging purposes
-    add.name = "add";
-    mul.name = "mul";
-    val.name = "val";
-    num.name = "num";
-    */
+    add = { "add"
+        , (add >> '+' >> mul)->*ADD
+        | (add >> '-' >> mul)->*SUB
+        | mul
+    };
 
     class calculator {
     public:

@@ -16,10 +16,28 @@ namespace xparserlib {
     class rule {
     public:
         /**
-         * The constructor.
+         * The default constructor.
+         * An empty, nameless rule object is constructed.
+         */
+        rule();
+
+        /**
+         * The copy constructor.
+         * @param r source object.
+         */
+        rule(const rule& r);
+
+        /**
+         * The move constructor.
+         * @param r source object.
+         */
+        rule(rule&& r);
+
+        /**
+         * Constructor from parser.
          * @param parser the parser to use for parsing.
          */
-        rule(const parser_ptr& parser = nullptr);
+        rule(const parser_ptr& parser);
 
         /**
          * Constructor from symbol.
@@ -58,11 +76,67 @@ namespace xparserlib {
         rule(bool value);
 
         /**
+         * Constructor from name and parser.
+         * @param parser the parser to use for parsing.
+         */
+        rule(const std::string& name, const parser_ptr& parser);
+
+        /**
+         * Constructor from name and symbol.
+         * @param symbol symbol.
+         */
+        rule(const std::string& name, symbol_type symbol);
+
+        /**
+         * Constructor from name and string.
+         * @param string string.
+         */
+        rule(const std::string& name, const char* string);
+
+        /**
+         * Constructor from name and string.
+         * @param string string.
+         */
+        rule(const std::string& name, const wchar_t* string);
+
+        /**
+         * Constructor from name and string.
+         * @param string string.
+         */
+        rule(const std::string& name, const string_type& string);
+
+        /**
+         * Constructor from name and string.
+         * @param string string.
+         */
+        rule(const std::string& name, const std::initializer_list<symbol_type>& string);
+
+        /**
+         * Constructor from name and boolean.
+         * @param value boolean value.
+         */
+        rule(const std::string& name, bool value);
+
+        /**
          * Assignment from parser.
          * @param parser the parser to use for parsing.
          * @return reference to this.
          */
         rule& operator = (const parser_ptr& parser);
+
+        /**
+         * Copy-assignment from rule.
+         * @param r the source object.
+         * @return reference to this.
+         */
+        rule& operator = (const rule& r);
+
+        /**
+         * move-assignment from rule.
+         * @param r the source object.
+         * @return reference to this.
+         */
+        rule& operator = (rule&& r);
 
         /**
          * Creates a zero or more times loop out of this rule.
@@ -101,10 +175,20 @@ namespace xparserlib {
          */
         bool parse(parse_context& pc) const;
 
+        /**
+         * Returns the rule's name.
+         * @return the rule's name.
+         */
+        const std::string& name() const;
+
+        /**
+         * Returns the rule's address.
+         * @return the rule's address.
+         */
         rule* addr();
-        const char* name{nullptr};
 
     private:
+        std::string m_name;
         parser_ptr m_parser;
     };
 

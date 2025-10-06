@@ -186,8 +186,25 @@ namespace xparserlib {
     }
 
 
+    rule::rule() {
+    }
+
+
+    rule::rule(const rule& r)
+        : rule(r.m_name, r.m_parser)
+    {
+    }
+
+
+    rule::rule(rule&& r)
+        : m_name(std::move(r.m_name))
+        , m_parser(convert_immediate_left_recursion(r.m_parser, this))
+    {
+    }
+
+
     rule::rule(const parser_ptr& parser)
-        : m_parser(convert_immediate_left_recursion(parser, this))
+        : rule({}, parser)
     {
     }
 
@@ -228,8 +245,65 @@ namespace xparserlib {
     }
 
 
+    rule::rule(const std::string& name, const parser_ptr& parser)
+        : m_name(name)
+        , m_parser(convert_immediate_left_recursion(parser, this))
+    {
+    }
+
+
+    rule::rule(const std::string& name, symbol_type symbol)
+        : rule(name, parser(symbol))
+    {
+    }
+
+
+    rule::rule(const std::string& name, const char* string)
+        : rule(name, parser(string))
+    {
+    }
+
+
+    rule::rule(const std::string& name, const wchar_t* string)
+        : rule(name, parser(string))
+    {
+    }
+
+
+    rule::rule(const std::string& name, const string_type& string)
+        : rule(name, parser(string))
+    {
+    }
+
+
+    rule::rule(const std::string& name, const std::initializer_list<symbol_type>& string)
+        : rule(parser(string))
+    {
+    }
+
+
+    rule::rule(const std::string& name, bool value)
+        : rule(name, parser(value))
+    {
+    }
+
+
     rule& rule::operator = (const parser_ptr& parser) {
         m_parser = convert_immediate_left_recursion(parser, this);
+        return *this;
+    }
+
+
+    rule& rule::operator = (const rule& r) {
+        m_name = r.m_name;
+        m_parser = convert_immediate_left_recursion(r.m_parser, this);
+        return *this;
+    }
+
+
+    rule& rule::operator = (rule&& r) {
+        m_name = std::move(r.m_name);
+        m_parser = convert_immediate_left_recursion(r.m_parser, this);
         return *this;
     }
 
@@ -261,6 +335,11 @@ namespace xparserlib {
 
     bool rule::parse(parse_context& pc) const {
         return m_parser->parse(pc);
+    }
+
+
+    const std::string& rule::name() const {
+        return m_name;
     }
 
 
